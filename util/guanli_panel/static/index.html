@@ -1,0 +1,1777 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>cangyao · 管理面板</title>
+<style>
+/* ==========================================================================
+   配色取自 cafe.weibazhen.com 的设计令牌
+   暖奶油底 + 咖啡文字 + 琥珀品牌色（含其 admin-pad 面板阴影/描边变量）
+   ========================================================================== */
+:root{
+  --surface-page:#fdfbf7;
+  --surface-card:#ffffff;
+  --surface-cream:#fffaf4;
+  --surface-cream-warm:#f7f1e8;
+  --surface-cream-deep:#fff6e8;
+  --surface-muted:#f4eee6;
+  --surface-sunken:#ece5d9;
+  --surface-accent:#f5ede1;
+  --surface-ink:#2d241c;
+  --surface-ink-hover:#3d3027;
+
+  --border-warm-soft:#eee2d1;
+  --border-warm:#eadfce;
+  --border-warm-deep:#ead8c4;
+  --border-warm-strong:#dcc4aa;
+  --border-default:#f0e9de;
+
+  --text-primary:#2c2a26;
+  --text-secondary:#6b6259;
+  --text-muted:#837a70;
+  --text-subtle:#948a80;
+  --text-inverse:#fdfbf7;
+
+  --coffee-heading:#4b3426;
+  --coffee-accent:#b27b42;
+  --coffee-link:#6c4a31;
+  --coffee-muted:#806b59;
+
+  --brand-amber:#a46125;
+  --brand-amber-bright:#d88932;
+  --brand-amber-vivid:#d97706;
+  --brand-amber-solid:#8a5830;
+  --brand-amber-solid-hover:#74452e;
+  --brand-primary-deep:#b06a26;
+  --brand-primary:#e0b878;
+
+  --ok:#50756a;
+  --warn:#b96e18;
+  --danger:#b4462c;
+
+  --radius-sm:8px;
+  --radius:12px;
+  --radius-lg:16px;
+
+  --shadow-lift-xs:0 6px 14px rgba(82,61,45,.05);
+  --shadow-lift-sm:0 10px 22px rgba(82,61,45,.07);
+  --shadow-lift-md:0 16px 34px rgba(82,61,45,.10);
+  --shadow-card:0 16px 40px -24px rgba(88,69,51,.25);
+  --admin-pad-shadow:0 24px 48px -28px rgba(76,57,38,.26);
+  --chip-shadow:0 2px 5px rgba(82,61,45,.14), inset 0 1px 0 rgba(255,255,255,.85);
+
+  --font: "PingFang SC","Microsoft YaHei","Noto Sans CJK SC","WenQuanYi Micro Hei",
+          -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  --mono: "JetBrains Mono","Cascadia Code",Consolas,"Courier New",monospace;
+}
+[data-theme="dark"]{
+  --surface-page:#1b1917;
+  --surface-card:#221f1c;
+  --surface-cream:#262220;
+  --surface-cream-warm:#332e2a;
+  --surface-cream-deep:#2c2825;
+  --surface-muted:#2f2a27;
+  --surface-sunken:#282421;
+  --surface-accent:#332e2a;
+  --surface-ink:#f4efe8;
+  --surface-ink-hover:#fffaf4;
+
+  --border-warm-soft:#2c2825;
+  --border-warm:#38322e;
+  --border-warm-deep:#413a35;
+  --border-warm-strong:#4d443d;
+  --border-default:#38322e;
+
+  --text-primary:#f4efe8;
+  --text-secondary:#ddd3c6;
+  --text-muted:#b5a795;
+  --text-subtle:#9c8e7c;
+  --text-inverse:#221f1c;
+
+  --coffee-heading:#f0e5d6;
+  --coffee-accent:#d8a45f;
+  --coffee-link:#d8a45f;
+  --coffee-muted:#b5a795;
+
+  --brand-amber:#d8a45f;
+  --brand-amber-bright:#e0a862;
+  --brand-amber-vivid:#e79a3c;
+  --brand-amber-solid:#a46125;
+  --brand-amber-solid-hover:#b8752f;
+  --brand-primary-deep:#d8a45f;
+  --brand-primary:#3a3129;
+
+  --ok:#7fae9e;
+  --warn:#d8a45f;
+  --danger:#e08066;
+
+  --shadow-lift-xs:0 6px 14px rgba(0,0,0,.28);
+  --shadow-lift-sm:0 10px 22px rgba(0,0,0,.32);
+  --shadow-lift-md:0 16px 34px rgba(0,0,0,.36);
+  --shadow-card:0 16px 40px -24px rgba(0,0,0,.55);
+  --admin-pad-shadow:0 24px 48px -28px rgba(0,0,0,.6);
+  --chip-shadow:0 2px 6px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.06);
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;font-family:var(--font);color:var(--text-primary);
+  background:var(--surface-page);
+  background-image:
+    radial-gradient(1100px 520px at 88% -12%, rgba(216,137,50,.11), transparent 62%),
+    radial-gradient(760px 420px at -8% 108%, rgba(178,123,66,.10), transparent 60%);
+  background-attachment:fixed;
+  font-size:14px;line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+a{color:var(--coffee-link);text-decoration:none}
+a:hover{color:var(--brand-amber)}
+code,kbd,pre,.mono{font-family:var(--mono)}
+
+/* ---------------- 布局 ---------------- */
+.shell{display:flex;min-height:100vh}
+.sidebar{
+  width:232px;flex:0 0 232px;padding:22px 16px;
+  background:linear-gradient(180deg,var(--surface-cream) 0%,var(--surface-cream-warm) 100%);
+  border-right:1px solid var(--border-warm);
+  position:sticky;top:0;height:100vh;display:flex;flex-direction:column;gap:18px;
+}
+.brand{display:flex;align-items:center;gap:11px;padding:2px 6px 0}
+.brand-mark{
+  width:40px;height:40px;border-radius:13px;flex:0 0 40px;
+  display:grid;place-items:center;font-weight:800;font-size:17px;color:#fff;
+  background:linear-gradient(150deg,var(--brand-amber-bright),var(--brand-amber-solid));
+  box-shadow:var(--shadow-lift-sm), inset 0 1px 0 rgba(255,244,228,.45);
+}
+.brand-name{font-weight:700;font-size:15px;color:var(--coffee-heading);letter-spacing:.2px}
+.brand-sub{font-size:11px;color:var(--text-subtle);letter-spacing:1.4px;text-transform:uppercase}
+
+.nav{display:flex;flex-direction:column;gap:3px;margin-top:4px;flex:1;min-height:0;overflow-y:auto;
+  scrollbar-width:thin}
+.nav::-webkit-scrollbar{width:8px}
+.nav::-webkit-scrollbar-thumb{background:var(--border-warm-strong);border-radius:8px}
+.nav::-webkit-scrollbar-track{background:transparent}
+.nav-label{font-size:10.5px;letter-spacing:1.4px;text-transform:uppercase;color:var(--text-subtle);
+  font-weight:700;padding:13px 12px 5px}
+.nav-label:first-child{padding-top:2px}
+.nav button{
+  all:unset;cursor:pointer;display:flex;align-items:center;gap:10px;
+  padding:9px 12px;border-radius:var(--radius-sm);font-size:13.5px;color:var(--text-secondary);
+  transition:background .16s,color .16s,transform .16s;
+}
+.nav button:hover{background:var(--surface-accent);color:var(--coffee-heading)}
+.nav button.on{
+  background:linear-gradient(180deg,var(--surface-card),var(--surface-cream-deep));
+  color:var(--coffee-heading);font-weight:600;
+  box-shadow:var(--chip-shadow);border:1px solid var(--border-warm-deep);
+}
+.nav .dot{width:6px;height:6px;border-radius:50%;background:currentColor;opacity:.45}
+.nav button.on .dot{opacity:1;background:var(--brand-amber-bright)}
+.sidebar-foot{margin-top:auto;display:flex;flex-direction:column;gap:8px;font-size:11.5px;color:var(--text-subtle)}
+
+.main{flex:1;min-width:0;padding:24px 28px 64px}
+.topbar{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:20px}
+.topbar h1{margin:0;font-size:20px;font-weight:700;color:var(--coffee-heading);letter-spacing:.2px}
+.topbar .spacer{flex:1}
+.sub{font-size:12.5px;color:var(--text-muted)}
+
+/* ---------------- 控件 ---------------- */
+button.btn, .btn{
+  all:unset;cursor:pointer;display:inline-flex;align-items:center;gap:7px;
+  padding:8px 15px;border-radius:var(--radius-sm);font-size:13px;font-weight:600;
+  background:var(--surface-card);color:var(--text-secondary);
+  border:1px solid var(--border-warm-deep);box-shadow:var(--shadow-lift-xs);
+  transition:transform .14s,box-shadow .18s,background .18s,color .18s;
+  white-space:nowrap;
+}
+button.btn:hover, .btn:hover{transform:translateY(-1px);box-shadow:var(--shadow-lift-sm);color:var(--coffee-heading)}
+button.btn:active,.btn:active{transform:translateY(0);box-shadow:var(--chip-shadow)}
+.btn.primary{
+  background:linear-gradient(180deg,var(--brand-amber-bright),var(--brand-amber-solid));
+  color:#fff;border-color:var(--brand-amber-solid-hover);
+  box-shadow:0 8px 16px rgba(207,130,39,.30), inset 0 1px 0 rgba(255,244,228,.42);
+}
+.btn.primary:hover{color:#fff;filter:brightness(1.03)}
+.btn.ghost{background:transparent;box-shadow:none;border-color:var(--border-warm)}
+.btn.danger{color:var(--danger);border-color:rgba(180,70,44,.35)}
+.btn[disabled]{opacity:.5;pointer-events:none}
+.btn.sm{padding:5px 10px;font-size:12px}
+
+input,select,textarea{
+  font-family:inherit;font-size:13px;color:var(--text-primary);
+  background:var(--surface-card);border:1px solid var(--border-warm-deep);
+  border-radius:var(--radius-sm);padding:8px 11px;outline:none;width:100%;
+  transition:border-color .16s,box-shadow .16s;
+}
+input:focus,select:focus,textarea:focus{
+  border-color:var(--brand-amber-bright);
+  box-shadow:0 0 0 3px rgba(216,137,50,.16);
+}
+textarea{resize:vertical;line-height:1.65}
+label.field{display:block;margin-bottom:14px}
+label.field > span{display:block;font-size:12px;font-weight:600;color:var(--text-secondary);margin-bottom:5px}
+.hint{font-size:11.5px;color:var(--text-subtle);margin-top:5px}
+
+/* ---------------- 卡片 ---------------- */
+.card{
+  background:var(--surface-card);border:1px solid var(--border-warm);
+  border-radius:var(--radius-lg);padding:18px 20px;margin-bottom:16px;
+  box-shadow:var(--shadow-lift-xs);
+}
+.card.pad{box-shadow:var(--admin-pad-shadow);border-color:var(--border-warm-deep)}
+.card h2{margin:0 0 4px;font-size:15px;font-weight:700;color:var(--coffee-heading)}
+.card h2 + .sub{margin-bottom:14px}
+.grid{display:grid;gap:14px}
+.grid.c2{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+.grid.c3{grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}
+.grid.c4{grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.row.end{justify-content:flex-end}
+
+.stat{
+  background:linear-gradient(180deg,var(--surface-cream) 0%,var(--surface-cream-warm) 100%);
+  border:1px solid var(--border-warm);border-radius:var(--radius);
+  padding:14px 16px;box-shadow:var(--chip-shadow);
+}
+.stat .k{font-size:11px;letter-spacing:.6px;text-transform:uppercase;color:var(--text-subtle);font-weight:600}
+.stat .v{font-size:22px;font-weight:800;color:var(--coffee-heading);margin-top:3px;letter-spacing:.3px}
+.stat .m{font-size:11.5px;color:var(--text-muted);margin-top:2px}
+.stat.accent{background:linear-gradient(180deg,var(--surface-cream-deep),var(--surface-accent));border-color:var(--border-warm-strong)}
+
+table{width:100%;border-collapse:separate;border-spacing:0;font-size:13px}
+th,td{padding:9px 10px;text-align:left;border-bottom:1px solid var(--border-warm-soft);vertical-align:middle}
+th{font-size:11.5px;letter-spacing:.4px;text-transform:uppercase;color:var(--text-subtle);font-weight:700;background:var(--surface-cream);position:sticky;top:0;z-index:1}
+tbody tr:hover{background:var(--surface-cream)}
+tbody tr:last-child td{border-bottom:none}
+.table-wrap{max-height:60vh;overflow:auto;border:1px solid var(--border-warm);border-radius:var(--radius);background:var(--surface-card)}
+td input[type=text],td select{padding:5px 8px;font-size:12.5px}
+td.chk{text-align:center;width:56px}
+td.w-name{font-weight:600;color:var(--coffee-heading);white-space:nowrap}
+
+.chip{
+  display:inline-flex;align-items:center;gap:6px;padding:3px 9px;border-radius:999px;
+  font-size:11.5px;font-weight:600;background:var(--surface-cream-warm);
+  border:1px solid var(--border-warm-deep);color:var(--coffee-muted);
+}
+.chip.amber{background:rgba(216,137,50,.14);border-color:rgba(216,137,50,.36);color:var(--brand-amber)}
+.chip.ok{background:rgba(80,117,106,.14);border-color:rgba(80,117,106,.32);color:var(--ok)}
+.chip.danger{background:rgba(180,70,44,.12);border-color:rgba(180,70,44,.3);color:var(--danger)}
+.chip button{all:unset;cursor:pointer;font-size:13px;line-height:1;color:inherit;opacity:.6}
+.chip button:hover{opacity:1}
+
+.taglist{display:flex;flex-wrap:wrap;gap:8px;padding:12px;min-height:58px;
+  background:var(--surface-cream);border:1px dashed var(--border-warm-strong);border-radius:var(--radius)}
+.empty{padding:26px;text-align:center;color:var(--text-subtle);font-size:13px}
+
+.switches{display:flex;flex-wrap:wrap;gap:8px}
+.switch{display:inline-flex;align-items:center;gap:7px;padding:7px 12px;border-radius:999px;font-size:12.5px;
+  background:var(--surface-cream);border:1px solid var(--border-warm-deep);cursor:pointer;user-select:none;
+  transition:background .16s,border-color .16s,color .16s}
+.switch:hover{background:var(--surface-accent);border-color:var(--border-warm-strong)}
+.switch input{width:auto;margin:0;accent-color:var(--brand-amber-solid)}
+.switch.on{background:linear-gradient(180deg,var(--surface-cream-deep),var(--surface-accent));
+  border-color:var(--brand-amber-bright);color:var(--coffee-heading);font-weight:600}
+.toolbar{display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap}
+.toolbar label.field{margin-bottom:0}
+.mono-cell{font-family:var(--mono);font-size:12px;color:var(--coffee-heading)}
+.num{font-variant-numeric:tabular-nums;font-weight:600;color:var(--coffee-heading)}
+
+pre.logbox{
+  margin:0;padding:14px;background:var(--surface-cream-warm);border:1px solid var(--border-warm-deep);
+  border-radius:var(--radius);max-height:62vh;overflow:auto;font-size:12px;line-height:1.65;
+  color:var(--coffee-heading);white-space:pre-wrap;word-break:break-all;
+}
+.editor{font-family:var(--mono);font-size:12.5px;min-height:52vh;background:var(--surface-cream);tab-size:4}
+.crumbs{display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-size:12.5px;color:var(--text-muted)}
+.crumbs button{all:unset;cursor:pointer;color:var(--coffee-link);font-weight:600}
+.crumbs button:hover{color:var(--brand-amber)}
+.filelist{max-height:52vh;overflow:auto;border:1px solid var(--border-warm);border-radius:var(--radius);background:var(--surface-card)}
+.file-row{display:flex;align-items:center;gap:10px;padding:8px 12px;border-bottom:1px solid var(--border-warm-soft);cursor:pointer}
+.file-row:last-child{border-bottom:none}
+.file-row:hover{background:var(--surface-cream)}
+.file-row.on{background:var(--surface-accent)}
+.file-row .ico{width:18px;text-align:center;opacity:.65}
+.file-row .nm{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.file-row .meta{font-size:11px;color:var(--text-subtle);white-space:nowrap}
+
+/* ---------------- 提示 ---------------- */
+#toasts{position:fixed;right:20px;bottom:20px;display:flex;flex-direction:column;gap:9px;z-index:60}
+.toast{
+  min-width:220px;max-width:380px;padding:11px 15px;border-radius:var(--radius);
+  background:var(--surface-card);border:1px solid var(--border-warm-deep);
+  box-shadow:var(--shadow-lift-md);font-size:13px;color:var(--text-primary);
+  animation:pop .22s ease-out;
+}
+.toast.ok{border-left:4px solid var(--ok)}
+.toast.err{border-left:4px solid var(--danger)}
+.toast.info{border-left:4px solid var(--brand-amber-bright)}
+@keyframes pop{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+/* ---------------- 登录遮罩 ---------------- */
+#gate{position:fixed;inset:0;z-index:80;display:grid;place-items:center;
+  background:rgba(44,42,38,.42);backdrop-filter:blur(6px)}
+#gate .box{
+  width:min(400px,92vw);background:var(--surface-card);border:1px solid var(--border-warm-deep);
+  border-radius:20px;padding:28px;box-shadow:var(--admin-pad-shadow);text-align:center;
+}
+#gate .box h2{margin:0 0 6px;font-size:18px;color:var(--coffee-heading)}
+#gate .box p{margin:0 0 18px;font-size:12.5px;color:var(--text-muted)}
+#gate .mark{
+  width:52px;height:52px;border-radius:16px;margin:0 auto 14px;display:grid;place-items:center;
+  font-weight:800;font-size:21px;color:#fff;
+  background:linear-gradient(150deg,var(--brand-amber-bright),var(--brand-amber-solid));
+  box-shadow:var(--shadow-lift-sm), inset 0 1px 0 rgba(255,244,228,.45);
+}
+.hide{display:none !important}
+.spin{display:inline-block;width:12px;height:12px;border-radius:50%;
+  border:2px solid rgba(255,255,255,.45);border-top-color:#fff;animation:sp .7s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+
+/* ---------------- 登录渠道 ---------------- */
+#gate .box{width:min(428px,92vw);text-align:left}
+#gate .head{text-align:center}
+#gate .box p{margin:0 0 16px}
+.gate-chips{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin:0 0 16px}
+.gate-chips button{
+  all:unset;cursor:pointer;padding:6px 12px;border-radius:999px;font-size:12.5px;font-weight:600;
+  color:var(--text-subtle);border:1px solid transparent;transition:.16s;
+}
+.gate-chips button:hover{color:var(--coffee-heading)}
+.gate-chips button.on{
+  background:var(--surface-cream-deep);border-color:var(--border-warm-strong);
+  color:var(--coffee-heading);box-shadow:var(--chip-shadow);
+}
+.gate-form label.field{margin-bottom:12px}
+#gate .foot{margin-top:14px;text-align:center;font-size:11px;color:var(--text-subtle);line-height:1.7}
+#gate-msg{margin-top:12px;text-align:center;min-height:17px;color:var(--danger)}
+
+/* 只读账号：写操作的按钮统一压暗禁用 */
+#view.readonly .btn.primary,#view.readonly .btn.danger{opacity:.42;pointer-events:none}
+.ro-banner{border-left:4px solid var(--brand-amber-bright)}
+
+.user-badge{display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:var(--radius-sm);
+  background:var(--surface-card);border:1px solid var(--border-warm-deep);box-shadow:var(--chip-shadow)}
+.user-badge .av{width:24px;height:24px;border-radius:8px;flex:0 0 24px;display:grid;place-items:center;
+  font-size:12px;font-weight:800;color:#fff;
+  background:linear-gradient(150deg,var(--brand-amber-bright),var(--brand-amber-solid))}
+.user-badge .who{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+  font-size:12px;font-weight:600;color:var(--coffee-heading)}
+.user-badge .rl{font-size:10.5px;color:var(--text-subtle)}
+
+@media (max-width:880px){
+  .shell{flex-direction:column}
+  .sidebar{width:auto;flex:none;height:auto;position:static;flex-direction:row;align-items:center;
+    overflow-x:auto;padding:12px 14px;border-right:none;border-bottom:1px solid var(--border-warm)}
+  .sidebar .nav{flex-direction:row;margin:0;flex:none;overflow:visible}
+  .sidebar .nav-label{display:none}
+  .sidebar-foot{display:none}
+  .brand-text{display:none}
+  .main{padding:18px 16px 56px}
+}
+</style>
+</head>
+<body>
+
+<div id="gate" class="hide">
+  <div class="box">
+    <div class="head">
+      <div class="mark">苍</div>
+      <h2>管理面板</h2>
+      <p id="gate-sub">请使用账号登录</p>
+    </div>
+
+    <div class="gate-chips" id="gate-chips"></div>
+
+    <div class="gate-form" id="gate-pw">
+      <label class="field"><span>用户名</span>
+        <input id="gate-user" type="text" autocomplete="username" placeholder="面板账号"></label>
+      <label class="field"><span>密码</span>
+        <input id="gate-pass" type="password" autocomplete="current-password" placeholder="登录密码"></label>
+      <button class="btn primary" id="gate-pw-btn" style="width:100%;justify-content:center">登录</button>
+    </div>
+
+    <div class="gate-form hide" id="gate-oidc-box">
+      <div class="hint" id="gate-oidc-hint" style="margin-bottom:12px"></div>
+      <button class="btn primary" id="gate-oidc-btn" style="width:100%;justify-content:center">使用统一身份认证登录</button>
+    </div>
+
+    <div class="gate-form hide" id="gate-token-box">
+      <label class="field"><span>访问口令</span>
+        <input id="gate-token" type="password" autocomplete="off" placeholder="应急访问口令"></label>
+      <button class="btn primary" id="gate-token-btn" style="width:100%;justify-content:center">用口令进入</button>
+    </div>
+
+    <div class="hint" id="gate-msg"></div>
+    <div class="foot" id="gate-foot"></div>
+  </div>
+</div>
+
+<div class="shell">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-mark">苍</div>
+      <div class="brand-text">
+        <div class="brand-name">cangyao</div>
+        <div class="brand-sub">admin panel</div>
+      </div>
+    </div>
+    <nav class="nav" id="nav">
+      <div class="nav-label">总览</div>
+      <button data-tab="overview" class="on"><span class="dot"></span>概览</button>
+      <button data-tab="actions"><span class="dot"></span>实时操作</button>
+      <div class="nav-label">群管理</div>
+      <button data-tab="groups"><span class="dot"></span>群配置</button>
+      <button data-tab="lists"><span class="dot"></span>黑白名单</button>
+      <button data-tab="approvals"><span class="dot"></span>入群申请</button>
+      <button data-tab="autoreplies"><span class="dot"></span>自动回复</button>
+      <button data-tab="stats"><span class="dot"></span>发言统计</button>
+      <div class="nav-label">风控</div>
+      <button data-tab="anti"><span class="dot"></span>违禁词</button>
+      <button data-tab="audit"><span class="dot"></span>操作日志</button>
+      <div class="nav-label">系统</div>
+      <button data-tab="commands"><span class="dot"></span>指令清单</button>
+      <button data-tab="files"><span class="dot"></span>代码文件</button>
+      <button data-tab="logs"><span class="dot"></span>运行日志</button>
+      <button data-tab="accounts"><span class="dot"></span>面板账号</button>
+      <button data-tab="settings"><span class="dot"></span>面板设置</button>
+    </nav>
+    <div class="sidebar-foot">
+      <div class="user-badge" id="side-user" title="当前登录账号">
+        <div class="av" id="side-av">?</div>
+        <div style="flex:1;min-width:0">
+          <div class="who" id="side-who">未登录</div>
+          <div class="rl" id="side-role">—</div>
+        </div>
+      </div>
+      <div id="side-status">未连接</div>
+      <div class="row" style="gap:6px">
+        <button class="btn sm ghost" id="theme-btn">深色</button>
+        <button class="btn sm ghost" id="logout-btn">退出</button>
+      </div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <h1 id="page-title">概览</h1>
+      <span class="sub" id="page-sub"></span>
+      <span class="spacer"></span>
+      <button class="btn" id="reload-btn" title="重载配置 / 插件">热重载</button>
+      <button class="btn primary" id="refresh-btn">刷新</button>
+    </div>
+    <div id="view"></div>
+  </main>
+</div>
+
+<div id="toasts"></div>
+
+<script>
+"use strict";
+/* ============================ 工具 ============================ */
+const $  = (s, r=document) => r.querySelector(s);
+const $$ = (s, r=document) => Array.from(r.querySelectorAll(s));
+const esc = (s) => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const fmtSize = (n) => n < 1024 ? n + " B" : n < 1048576 ? (n/1024).toFixed(1) + " KB" : (n/1048576).toFixed(1) + " MB";
+const fmtDur = (s) => { s=Math.max(0,s|0); const d=(s/86400)|0, h=((s%86400)/3600)|0, m=((s%3600)/60)|0;
+  return (d?d+" 天 ":"") + (h?h+" 小时 ":"") + m + " 分"; };
+/* 与后端 _parse_duration 对应：10 / 10m / 2h / 1d -> 秒 */
+const parseDur = (raw, def=0) => {
+  const t = String(raw ?? "").trim().toLowerCase();
+  if (!t) return def;
+  const unit = t.slice(-1);
+  const num = "smhd".includes(unit) ? parseInt(t.slice(0,-1), 10) : parseInt(t, 10);
+  if (isNaN(num)) return def;
+  return Math.max(0, num * ({s:1,m:60,h:3600,d:86400}[unit] || 1));
+};
+const fmtTime = (s) => { const t = String(s || ""); return t ? t.replace("T"," ").slice(0,16) : "—"; };
+
+/* 面板通常直接访问（http(s)://IP:28788/），也可能被 nginx 挂在 /gl/ 子路径下（已可选）。
+   这里用「当前页面所在目录」作为前缀拼接请求，两种访问方式都能正确命中面板后端。 */
+const BASE = location.pathname.replace(/[^/]*$/, "").replace(/\/$/, "");
+
+async function api(path, opts={}) {
+  const o = Object.assign({headers:{}}, opts);
+  if (o.body !== undefined && typeof o.body !== "string") {
+    o.headers["Content-Type"] = "application/json";
+    o.body = JSON.stringify(o.body);
+  }
+  const r = await fetch(BASE + path, o);
+  const ct = r.headers.get("content-type") || "";
+  const data = ct.includes("application/json") ? await r.json() : await r.text();
+  /* 登录接口的 401 要保留后端的具体提示，其余 401 一律弹回登录页 */
+  if (r.status === 401 && path.indexOf("/api/login") !== 0) {
+    applyUser(null);
+    showGate(true);
+    throw new Error("未授权");
+  }
+  if (!r.ok) throw new Error((data && data.error) || ("HTTP " + r.status));
+  return data;
+}
+function toast(msg, kind="info") {
+  const el = document.createElement("div");
+  el.className = "toast " + kind;
+  el.textContent = msg;
+  $("#toasts").appendChild(el);
+  setTimeout(() => { el.style.opacity = "0"; el.style.transition = "opacity .3s"; }, 2600);
+  setTimeout(() => el.remove(), 3000);
+}
+function busy(btn, on, label) {
+  if (!btn) return;
+  if (on) { btn.dataset.label = btn.textContent; btn.disabled = true; btn.innerHTML = '<span class="spin"></span>' + (label||"处理中"); }
+  else { btn.disabled = false; btn.textContent = btn.dataset.label || label || "确定"; }
+}
+
+/* 保存代码文件后该重载什么：
+   src/plugins/xx/*.py  -> 重载 xx 插件
+   util/guanli_panel/*.py -> 用新代码重启面板后端
+   其余文件（配置/前端等）无需重载 */
+function reloadTarget(path) {
+  const m = /^src\/plugins\/([^/]+)\//.exec(path);
+  if (m) return {plugins:[m[1]]};
+  if (path.indexOf("util/guanli_panel/") === 0) return {panel:true};
+  return null;
+}
+
+/* ============================ 登录 ============================ */
+/* 面板支持三条登录渠道，能开哪些由后端 /api/auth/config 决定：
+   1) 账号密码（面板自建账号，角色 admin / viewer）
+   2) OIDC 统一身份认证（授权码 + PKCE，整页跳转）
+   3) 应急访问口令（.env 的 GUANLI_TOKEN 或日志里的随机口令） */
+const AUTH = { channels: [], raw: null, loaded: false };
+let ME = null;             // 当前登录身份，来自 /api/session 或 /api/login
+let gateChannel = "password";
+
+const canWrite = () => !!ME && ME.role === "admin";
+
+function gateMsg(text) { const el = $("#gate-msg"); if (el) el.textContent = text || ""; }
+
+function applyUser(user) {
+  ME = user || null;
+  const who = $("#side-who"), rl = $("#side-role"), av = $("#side-av");
+  if (who) {
+    if (ME) {
+      const name = ME.display_name || ME.username || "已登录";
+      who.textContent = name;
+      const via = ME.provider === "oidc" ? " · OIDC" : (ME.via === "token" ? " · 口令" : "");
+      rl.textContent = (ME.role_desc || ME.role || "") + via;
+      av.textContent = String(name).slice(0, 1).toUpperCase();
+    } else {
+      who.textContent = "未登录"; rl.textContent = "—"; av.textContent = "?";
+    }
+  }
+  const navBtn = $('#nav button[data-tab="accounts"]');
+  if (navBtn) navBtn.classList.toggle("hide", !canWrite());
+}
+
+function channelsOf(cfg) {
+  const list = [];
+  if (cfg === null || cfg.password !== false) list.push({id:"password", label:"账号密码"});
+  if (cfg && cfg.oidc && cfg.oidc.enabled) list.push({id:"oidc", label: cfg.oidc.name || "统一身份认证"});
+  if (cfg === null || cfg.token !== false) list.push({id:"token", label:"访问口令"});
+  return list;
+}
+
+async function loadAuthConfig() {
+  if (AUTH.loaded) return AUTH;
+  try { AUTH.raw = await api("/api/auth/config"); }
+  catch (e) { AUTH.raw = null; }
+  AUTH.channels = channelsOf(AUTH.raw);
+  AUTH.loaded = true;
+  return AUTH;
+}
+
+function paintGate() {
+  const chips = $("#gate-chips");
+  if (!chips) return;
+  if (AUTH.raw === undefined) { AUTH.channels = channelsOf(null); AUTH.raw = null; }
+  if (!AUTH.channels.length) AUTH.channels = channelsOf(null);
+  if (!AUTH.channels.some(c => c.id === gateChannel)) gateChannel = AUTH.channels[0].id;
+
+  chips.classList.toggle("hide", AUTH.channels.length <= 1);
+  chips.innerHTML = AUTH.channels.map(c =>
+    `<button data-ch="${c.id}" class="${c.id === gateChannel ? "on" : ""}">${esc(c.label)}</button>`).join("");
+  $$("#gate-chips button").forEach(b => b.addEventListener("click", () => { gateChannel = b.dataset.ch; paintGate(); }));
+
+  $("#gate-pw").classList.toggle("hide", gateChannel !== "password");
+  $("#gate-oidc-box").classList.toggle("hide", gateChannel !== "oidc");
+  $("#gate-token-box").classList.toggle("hide", gateChannel !== "token");
+
+  const oidc = (AUTH.raw && AUTH.raw.oidc) || {};
+  $("#gate-sub").textContent = {
+    password: "请使用面板账号登录",
+    oidc: "跳转到统一身份认证完成登录",
+    token: "使用 .env 的 GUANLI_TOKEN，或服务器日志里的随机口令",
+  }[gateChannel] || "请登录";
+  $("#gate-oidc-hint").textContent = oidc.restricted
+    ? "仅限 IdP 中指定的邮箱 / 域名可以登录面板。"
+    : (oidc.auto_create ? "首次登录会自动创建面板账号。" : "需要管理员先在「面板账号」里建好同名账号。");
+  $("#gate-oidc-btn").textContent = "使用" + (oidc.name || "统一身份认证") + "登录";
+  const hours = (AUTH.raw && AUTH.raw.session_hours) || 168;
+  const days = Math.max(1, Math.round(hours / 24));
+  $("#gate-foot").innerHTML = "登录状态保持约 " + days + " 天" +
+    (oidc.enabled ? "；推荐优先使用统一身份认证。" : "。");
+}
+
+function showGate(on) {
+  const g = $("#gate");
+  g.classList.toggle("hide", !on);
+  if (!on) return;
+  paintGate();
+  setTimeout(() => { const el = $("#gate-user") || $("#gate-token"); if (el) el.focus(); }, 60);
+}
+
+async function enterPanel(user) {
+  applyUser(user);
+  showGate(false);
+  gateMsg("");
+  const pwd = $("#gate-pass"); if (pwd) pwd.value = "";
+  toast("欢迎，" + ((user && (user.display_name || user.username)) || "管理员"), "ok");
+  await render();
+}
+
+async function doPasswordLogin() {
+  const btn = $("#gate-pw-btn"), user = ($("#gate-user").value || "").trim(), pwd = $("#gate-pass").value;
+  if (!user) { gateMsg("请输入用户名"); return; }
+  if (!pwd) { gateMsg("请输入密码"); return; }
+  gateMsg(""); busy(btn, true, "验证中");
+  try {
+    const r = await api("/api/login", {method:"POST", body:{username:user, password:pwd}});
+    await enterPanel(r.user);
+  } catch (e) { gateMsg(e.message || "登录失败"); }
+  finally { busy(btn, false); }
+}
+
+async function doTokenLogin() {
+  const btn = $("#gate-token-btn"), token = ($("#gate-token").value || "").trim();
+  if (!token) { gateMsg("请输入访问口令"); return; }
+  gateMsg(""); busy(btn, true, "验证中");
+  try {
+    const r = await api("/api/login", {method:"POST", body:{token}});
+    await enterPanel(r.user);
+  } catch (e) { gateMsg(e.message || "登录失败"); }
+  finally { busy(btn, false); }
+}
+
+function doOidcLogin() { gateMsg(""); location.href = BASE + "/api/oidc/start"; }
+
+async function doLogout() {
+  try { await api("/api/logout", {method:"POST"}); } catch (e) {}
+  applyUser(null);
+  $("#view").innerHTML = "";
+  $("#view").classList.remove("readonly");
+  showGate(true);
+}
+
+$("#gate-pw-btn").addEventListener("click", doPasswordLogin);
+$("#gate-oidc-btn").addEventListener("click", doOidcLogin);
+$("#gate-token-btn").addEventListener("click", doTokenLogin);
+$("#gate-pass").addEventListener("keydown", e => { if (e.key === "Enter") doPasswordLogin(); });
+$("#gate-user").addEventListener("keydown", e => { if (e.key === "Enter") $("#gate-pass").focus(); });
+$("#gate-token").addEventListener("keydown", e => { if (e.key === "Enter") doTokenLogin(); });
+
+/* ============================ 壳 ============================ */
+const TABS = {
+  overview:{title:"概览", sub:"机器人运行状态 · 群管数据一览", load:viewOverview},
+  actions:{title:"实时操作", sub:"禁言 / 全员禁言 / 撤回 / 群通知", load:viewActions},
+  groups:{title:"群配置", sub:"按群设置图文监控 / 关键词 / 插件开关 / 欢迎与退群播报", load:viewGroups},
+  lists:{title:"黑白名单", sub:"黑名单拦截并累计违规，白名单豁免处罚", load:viewLists},
+  approvals:{title:"入群申请", sub:"从协议端同步申请，一键同意 / 拒绝", load:viewApprovals},
+  autoreplies:{title:"自动回复", sub:"关键词自动回复（精确 / 前缀 / 包含）", load:viewAutoreplies},
+  stats:{title:"发言统计", sub:"群成员发言排行与总量（本地统计，两端通用）", load:viewStats},
+  anti:{title:"违禁词", sub:"命中后累计违规次数，达到阈值自动禁言", load:viewAnti},
+  audit:{title:"操作日志", sub:"群内与面板管理动作的审计流水", load:viewAudit},
+  commands:{title:"指令清单", sub:"commands.json：说明 / 场景 / 屏蔽 / 面板显示名", load:viewCommands},
+  files:{title:"代码文件", sub:"在线替换原代码文件，保存后可热重载", load:viewFiles},
+  logs:{title:"运行日志", sub:"读取 logs/bot.log 尾部", load:viewLogs},
+  accounts:{title:"面板账号", sub:"登录账号 / 角色权限 / 在线会话", load:viewAccounts},
+  settings:{title:"面板设置", sub:"对外地址与登录方式", load:viewSettings},
+};
+let current = "overview";
+
+$$("#nav button").forEach(b => b.addEventListener("click", () => {
+  current = b.dataset.tab;
+  $$("#nav button").forEach(x => x.classList.toggle("on", x === b));
+  render();
+}));
+$("#refresh-btn").addEventListener("click", () => render());
+$("#reload-btn").addEventListener("click", async (e) => {
+  busy(e.currentTarget, true, "重载中");
+  try {
+    const r = await api("/api/reload", {method:"POST", body:{}});
+    toast("已重载：" + (r.reloaded || []).join(" / "), r.ok ? "ok" : "err");
+  } catch (err) { toast("重载失败：" + err.message, "err"); }
+  finally { busy(e.currentTarget, false); }
+});
+$("#logout-btn").addEventListener("click", doLogout);
+$("#theme-btn").addEventListener("click", () => {
+  const dark = document.documentElement.dataset.theme === "dark";
+  document.documentElement.dataset.theme = dark ? "light" : "dark";
+  $("#theme-btn").textContent = dark ? "深色" : "浅色";
+  try { localStorage.setItem("guanli-theme", document.documentElement.dataset.theme); } catch(e){}
+});
+
+async function render() {
+  if (current === "accounts" && !canWrite()) current = "overview";
+  const tab = TABS[current];
+  $("#page-title").textContent = tab.title;
+  $("#page-sub").textContent = tab.sub;
+  $("#view").innerHTML = '<div class="empty">加载中…</div>';
+  try { await tab.load(); }
+  catch (e) {
+    if (e.message !== "未授权") $("#view").innerHTML = '<div class="card"><div class="empty">加载失败：' + esc(e.message) + '</div></div>';
+    return;
+  }
+  const ro = !canWrite();
+  $("#view").classList.toggle("readonly", ro);
+  if (ro && !$("#ro-banner")) {
+    $("#view").insertAdjacentHTML("afterbegin",
+      '<div class="card ro-banner" id="ro-banner"><div class="sub" style="margin:0">当前账号为 <strong>只读</strong> 权限，'
+      + '数据可以查看，写操作已被禁用。需要修改请让管理员在「面板账号」里把角色改为 <code>admin</code>。</div></div>');
+  }
+}
+
+/* ============================ 概览 ============================ */
+async function viewOverview() {
+  const d = await api("/api/overview");
+  $("#side-status").textContent = "已连接 · " + (d.nickname || "bot");
+  const info = [
+    ["运行时长", fmtDur(d.uptime), "自面板进程启动"],
+    ["已加载插件", d.plugin_count ?? "-", "src/plugins 下自动扫描"],
+    ["内存占用", (d.memory ?? "-") + " MB", "RSS"],
+    ["CPU", (d.cpu ?? "-") + " %", "全机瞬时占用"],
+    ["Python", d.python || "-", d.platform || ""],
+    ["热重载", d.hot_reload ? "已开启" : "已关闭", "config.yaml → bot.hot_reload"],
+  ];
+  const s = d.store || {};
+  const admin = [
+    ["群配置", s.groups ?? 0, "已单独配置的群"],
+    ["违规记录", s.warns ?? 0, "累计违规计数"],
+    ["发言成员", s.stat_members ?? 0, "被统计过的成员"],
+    ["累计发言", s.stat_total ?? 0, "本地统计消息量"],
+    ["黑名单", s.blacklist ?? 0, "拦截成员"],
+    ["白名单", s.whitelist ?? 0, "豁免成员"],
+    ["自动回复", s.autoreplies ?? 0, "全部规则"],
+    ["待审批", s.pending_approvals ?? 0, "入群申请"],
+  ];
+  $("#view").innerHTML = `
+    <div class="grid c3">${info.map(([k,v,m]) => `
+      <div class="stat"><div class="k">${esc(k)}</div><div class="v">${esc(v)}</div><div class="m">${esc(m)}</div></div>`).join("")}</div>
+    <div class="card">
+      <h2>群管数据</h2>
+      <div class="sub">本地 SQLite 汇总（src/data/guanli_panel.db），goqbot 与标准 OneBot 两端共用</div>
+      <div class="grid c4" style="margin-top:12px">${admin.map(([k,v,m]) => `
+        <div class="stat accent"><div class="k">${esc(k)}</div><div class="v">${esc(v)}</div><div class="m">${esc(m)}</div></div>`).join("")}</div>
+    </div>
+    <div class="card pad">
+      <h2>面板入口</h2>
+      <div class="sub">面板监听 <code>${esc(d.panel.host)}:${esc(d.panel.port)}</code>，端口直通对外${d.panel.https ? "（HTTPS 自签证书）" : ""}，不需要 nginx</div>
+      <div class="row" style="margin-top:10px">
+        <input id="ov-url" type="text" value="${esc(d.panel.url)}" readonly style="flex:1;min-width:240px">
+        <button class="btn" id="ov-copy">复制</button>
+      </div>
+      <div class="hint">把这个地址发给管理员即可打开本面板；口令见「面板设置」。</div>
+    </div>
+    <div class="card">
+      <h2>超级用户</h2>
+      <div class="sub">config.yaml → bot.superusers</div>
+      <div class="taglist" style="border-style:solid">${
+        (d.superusers || []).map(u => `<span class="chip amber">${esc(u)}</span>`).join("") || '<span class="chip">未配置</span>'
+      }</div>
+    </div>
+    <div class="card">
+      <h2>插件列表（${(d.plugins||[]).length}）</h2>
+      <div class="taglist" style="border-style:solid">${
+        (d.plugins || []).map(p => `<span class="chip">${esc(p)}</span>`).join("") || '<span class="chip">无</span>'
+      }</div>
+    </div>`;
+  $("#ov-copy").addEventListener("click", () => {
+    navigator.clipboard?.writeText($("#ov-url").value).then(() => toast("已复制", "ok"), () => {});
+  });
+}
+
+/* ============================ 实时操作 ============================ */
+async function viewActions() {
+  let bots = [], loopReady = true;
+  try { const r = await api("/api/bots"); bots = r.bots || []; loopReady = r.loop_ready !== false; } catch (e) {}
+  const botOpts = bots.length
+    ? bots.map(b => `<option value="${esc(b.self_id)}">${esc(b.self_id)}${b.platform ? " · " + esc(b.platform) : ""}</option>`).join("")
+    : '<option value="">（未检测到在线机器人）</option>';
+
+  $("#view").innerHTML = `
+    <div class="card">
+      <h2>操作目标</h2>
+      <div class="sub">先选机器人实例与群号，下方所有动作都会作用到该群。</div>
+      <div class="grid c2" style="margin-top:12px">
+        <label class="field"><span>机器人实例</span><select id="ac-bot">${botOpts}</select></label>
+        <label class="field"><span>群号</span><input id="ac-group" type="text" inputmode="numeric" placeholder="例如 123456789"></label>
+      </div>
+      ${loopReady ? "" : '<div class="hint" style="color:var(--warn)">面板尚未拿到机器人的事件循环：请先在群里发一条消息（或任意指令），再回来操作。</div>'}
+    </div>
+    <div class="grid c2">
+      <div class="card">
+        <h2>成员禁言</h2>
+        <div class="sub">时长填 0 表示解禁；支持 <code>10m</code> / <code>2h</code> / <code>1d</code></div>
+        <label class="field" style="margin-top:12px"><span>QQ 号</span><input id="ac-qq" type="text" inputmode="numeric" placeholder="被操作成员"></label>
+        <label class="field"><span>时长</span><input id="ac-dur" type="text" value="600"></label>
+        <div class="row end"><button class="btn primary" id="ac-ban">执行</button></div>
+      </div>
+      <div class="card">
+        <h2>全员禁言</h2>
+        <div class="sub">goqbot 官方群（v2）无此能力，仅标准 OneBot 协议端可用。</div>
+        <div class="row" style="margin-top:14px">
+          <button class="btn primary" id="ac-wb-on">开启</button>
+          <button class="btn" id="ac-wb-off">解除</button>
+        </div>
+      </div>
+      <div class="card">
+        <h2>撤回消息</h2>
+        <div class="sub">goqbot 只能撤回机器人自己发出的消息。</div>
+        <label class="field" style="margin-top:12px"><span>message_id</span><input id="ac-mid" type="text" inputmode="numeric" placeholder="消息 ID"></label>
+        <div class="row end"><button class="btn primary" id="ac-recall">撤回</button></div>
+      </div>
+      <div class="card">
+        <h2>群通知</h2>
+        <div class="sub">以机器人身份往目标群发送一条消息。</div>
+        <label class="field" style="margin-top:12px"><span>内容</span><textarea id="ac-msg" rows="3" placeholder="要发送的内容"></textarea></label>
+        <div class="row end"><button class="btn primary" id="ac-notify">发送</button></div>
+      </div>
+    </div>`;
+
+  const target = () => ({ self_id: $("#ac-bot").value || null, group_id: ($("#ac-group").value || "").trim() });
+  const guard = () => { if (!target().group_id) { toast("请先填写群号", "err"); return false; } return true; };
+  const run = async (btn, fn, ok = "已执行") => {
+    busy(btn, true, "执行中");
+    try { await fn(); toast(ok, "ok"); }
+    catch (e) { toast(e.message || "操作失败", "err"); }
+    finally { busy(btn, false); }
+  };
+
+  $("#ac-ban").addEventListener("click", (e) => {
+    if (!guard()) return;
+    const qq = ($("#ac-qq").value || "").trim();
+    if (!/^\d+$/.test(qq)) { toast("QQ 号必须是数字", "err"); return; }
+    const duration = parseDur($("#ac-dur").value, 600);
+    run(e.currentTarget, () => api("/api/actions/ban", {method:"POST", body:{...target(), user_id:qq, duration}}),
+        duration > 0 ? "已禁言该成员" : "已解除禁言");
+  });
+  $("#ac-wb-on").addEventListener("click", (e) => { if (!guard()) return;
+    run(e.currentTarget, () => api("/api/actions/whole-ban", {method:"POST", body:{...target(), enable:true}}), "已开启全员禁言"); });
+  $("#ac-wb-off").addEventListener("click", (e) => { if (!guard()) return;
+    run(e.currentTarget, () => api("/api/actions/whole-ban", {method:"POST", body:{...target(), enable:false}}), "已解除全员禁言"); });
+  $("#ac-recall").addEventListener("click", (e) => {
+    const mid = ($("#ac-mid").value || "").trim();
+    if (!/^\d+$/.test(mid)) { toast("message_id 必须是数字", "err"); return; }
+    run(e.currentTarget, () => api("/api/actions/recall", {method:"POST", body:{group_id:target().group_id, message_id:mid}}), "已撤回");
+  });
+  $("#ac-notify").addEventListener("click", (e) => {
+    if (!guard()) return;
+    const message = ($("#ac-msg").value || "").trim();
+    if (!message) { toast("请填写通知内容", "err"); return; }
+    run(e.currentTarget, () => api("/api/actions/notify", {method:"POST", body:{...target(), message}}), "通知已发送");
+  });
+}
+
+/* ============================ 发言统计 ============================ */
+let statGroup = "";
+async function viewStats() {
+  const d = await api("/api/stats" + (statGroup ? "?group_id=" + encodeURIComponent(statGroup) : ""));
+  const rows = d.stats || [];
+  const total = rows.reduce((n, r) => n + (r.count | 0), 0);
+  $("#view").innerHTML = `
+    <div class="card">
+      <div class="toolbar">
+        <label class="field"><span>群号（留空 = 全部群）</span>
+          <input id="st-group" type="text" inputmode="numeric" value="${esc(statGroup)}" placeholder="123456789" style="min-width:200px"></label>
+        <button class="btn" id="st-load">查看</button>
+        <span class="spacer" style="flex:1"></span>
+        <span class="chip">成员 ${rows.length}</span>
+        <span class="chip amber">累计 ${total} 条</span>
+        <button class="btn danger" id="st-clear">清空统计</button>
+      </div>
+      <div class="hint">发言计数由群消息总入口实时累加，goqbot 与标准 OneBot 两端都会统计。</div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th style="width:64px">排名</th><th style="width:140px">群号</th><th>QQ</th>
+          <th style="width:120px">发言数</th><th style="width:180px">最近发言</th></tr></thead>
+        <tbody>${rows.map((r, i) => `
+          <tr>
+            <td class="num">${i + 1}</td>
+            <td class="mono-cell">${esc(r.group_id)}</td>
+            <td class="mono-cell">${esc(r.user_id)}</td>
+            <td><span class="chip amber">${r.count | 0} 条</span></td>
+            <td class="sub">${esc(fmtTime(r.last_at))}</td>
+          </tr>`).join("") || '<tr><td colspan="5"><div class="empty">还没有发言记录</div></td></tr>'}
+        </tbody>
+      </table>
+    </div>`;
+  const load = () => { statGroup = ($("#st-group").value || "").trim(); viewStats(); };
+  $("#st-load").addEventListener("click", load);
+  $("#st-group").addEventListener("keydown", e => { if (e.key === "Enter") load(); });
+  $("#st-clear").addEventListener("click", async (e) => {
+    if (!confirm("确定清空" + (statGroup ? "群 " + statGroup : "全部") + "的发言统计？")) return;
+    busy(e.currentTarget, true, "清空中");
+    try {
+      await api("/api/stats" + (statGroup ? "?group_id=" + encodeURIComponent(statGroup) : ""), {method:"DELETE"});
+      toast("已清空", "ok"); viewStats();
+    } catch (err) { toast("清空失败：" + err.message, "err"); }
+    finally { busy(e.currentTarget, false); }
+  });
+}
+
+/* ============================ 黑白名单 ============================ */
+let listGroup = "", listKind = "";
+async function viewLists() {
+  const params = [];
+  if (listGroup) params.push("group_id=" + encodeURIComponent(listGroup));
+  if (listKind) params.push("kind=" + listKind);
+  const d = await api("/api/lists" + (params.length ? "?" + params.join("&") : ""));
+  const rows = d.entries || [];
+  const blacks = rows.filter(r => r.kind === "black").length;
+  const whites = rows.filter(r => r.kind === "white").length;
+  $("#view").innerHTML = `
+    <div class="card">
+      <div class="toolbar">
+        <label class="field"><span>群号（留空 = 全部）</span>
+          <input id="ls-group" type="text" inputmode="numeric" value="${esc(listGroup)}" placeholder="123456789" style="min-width:180px"></label>
+        <label class="field"><span>类型</span>
+          <select id="ls-kind" style="min-width:130px">
+            <option value="">全部</option>
+            <option value="black" ${listKind === "black" ? "selected" : ""}>黑名单</option>
+            <option value="white" ${listKind === "white" ? "selected" : ""}>白名单</option>
+          </select></label>
+        <button class="btn" id="ls-load">筛选</button>
+        <span class="spacer" style="flex:1"></span>
+        <span class="chip danger">黑 ${blacks}</span>
+        <span class="chip ok">白 ${whites}</span>
+      </div>
+      <div class="hint">黑名单：命中即撤回消息并累计违规，达到阈值自动禁言；白名单：豁免违禁词处罚。管理员与超管始终豁免。</div>
+    </div>
+    <div class="card pad">
+      <h2>新增名单</h2>
+      <div class="grid c4" style="margin-top:10px">
+        <label class="field"><span>群号</span><input id="ls-n-group" type="text" inputmode="numeric" placeholder="123456789"></label>
+        <label class="field"><span>QQ 号</span><input id="ls-n-user" type="text" inputmode="numeric" placeholder="10001"></label>
+        <label class="field"><span>类型</span><select id="ls-n-kind"><option value="black">黑名单</option><option value="white">白名单</option></select></label>
+        <label class="field"><span>备注</span><input id="ls-n-note" type="text" placeholder="可选"></label>
+      </div>
+      <div class="row end"><button class="btn primary" id="ls-add">加入名单</button></div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th style="width:140px">群号</th><th>QQ</th><th style="width:100px">类型</th><th>备注</th>
+          <th style="width:180px">加入时间</th><th style="width:90px"></th></tr></thead>
+        <tbody>${rows.map(r => `
+          <tr>
+            <td class="mono-cell">${esc(r.group_id)}</td>
+            <td class="mono-cell">${esc(r.user_id)}</td>
+            <td><span class="chip ${r.kind === "white" ? "ok" : "danger"}">${r.kind === "white" ? "白名单" : "黑名单"}</span></td>
+            <td class="sub">${esc(r.note || "—")}</td>
+            <td class="sub">${esc(fmtTime(r.created_at))}</td>
+            <td><button class="btn sm danger" data-del="${esc(r.group_id)}|${esc(r.user_id)}|${esc(r.kind)}">移除</button></td>
+          </tr>`).join("") || '<tr><td colspan="6"><div class="empty">名单为空</div></td></tr>'}
+        </tbody>
+      </table>
+    </div>`;
+  $("#ls-load").addEventListener("click", () => { listGroup = ($("#ls-group").value || "").trim(); listKind = $("#ls-kind").value; viewLists(); });
+  $("#ls-add").addEventListener("click", async (e) => {
+    const group_id = ($("#ls-n-group").value || "").trim(), user_id = ($("#ls-n-user").value || "").trim();
+    if (!/^\d+$/.test(group_id) || !/^\d+$/.test(user_id)) { toast("群号与 QQ 号都必须填写数字", "err"); return; }
+    busy(e.currentTarget, true, "保存中");
+    try {
+      await api("/api/lists", {method:"POST", body:{group_id, user_id, kind:$("#ls-n-kind").value, note:$("#ls-n-note").value.trim()}});
+      toast("已加入名单", "ok"); viewLists();
+    } catch (err) { toast("失败：" + err.message, "err"); }
+    finally { busy(e.currentTarget, false); }
+  });
+  $$("#view button[data-del]").forEach(b => b.addEventListener("click", async (e) => {
+    const [g, u, k] = e.currentTarget.dataset.del.split("|");
+    if (!confirm(`移除 ${u}（群 ${g}）的${k === "white" ? "白" : "黑"}名单记录？`)) return;
+    try {
+      await api("/api/lists?group_id=" + encodeURIComponent(g) + "&user_id=" + encodeURIComponent(u) + "&kind=" + encodeURIComponent(k), {method:"DELETE"});
+      toast("已移除", "ok"); viewLists();
+    } catch (err) { toast("移除失败：" + err.message, "err"); }
+  }));
+}
+
+/* ============================ 入群申请 ============================ */
+let appGroup = "", appStatus = "pending";
+async function viewApprovals() {
+  let bots = [];
+  try { bots = (await api("/api/bots")).bots || []; } catch (e) {}
+  const botOpts = bots.length
+    ? bots.map(b => `<option value="${esc(b.self_id)}">${esc(b.self_id)}${b.platform ? " · " + esc(b.platform) : ""}</option>`).join("")
+    : '<option value="">（未检测到在线机器人）</option>';
+  const params = [];
+  if (appGroup) params.push("group_id=" + encodeURIComponent(appGroup));
+  if (appStatus) params.push("status=" + appStatus);
+  const d = await api("/api/approvals" + (params.length ? "?" + params.join("&") : ""));
+  const items = d.items || [];
+  const badge = (s) => s === "pending" ? '<span class="chip amber">待处理</span>'
+    : s === "approved" ? '<span class="chip ok">已同意</span>' : '<span class="chip danger">已拒绝</span>';
+  $("#view").innerHTML = `
+    <div class="card">
+      <div class="toolbar">
+        <label class="field"><span>群号（拉取与筛选）</span>
+          <input id="ap-group" type="text" inputmode="numeric" value="${esc(appGroup)}" placeholder="123456789" style="min-width:180px"></label>
+        <label class="field"><span>状态</span>
+          <select id="ap-status" style="min-width:130px">
+            <option value="" ${appStatus === "" ? "selected" : ""}>全部</option>
+            <option value="pending" ${appStatus === "pending" ? "selected" : ""}>待处理</option>
+            <option value="approved" ${appStatus === "approved" ? "selected" : ""}>已同意</option>
+            <option value="rejected" ${appStatus === "rejected" ? "selected" : ""}>已拒绝</option>
+          </select></label>
+        <label class="field"><span>机器人实例</span><select id="ap-bot" style="min-width:150px">${botOpts}</select></label>
+        <button class="btn" id="ap-filter">筛选</button>
+        <span class="spacer" style="flex:1"></span>
+        <button class="btn primary" id="ap-sync">从协议端同步</button>
+      </div>
+      <div class="hint">同步会调用协议端的群系统消息接口，goqbot 与标准 OneBot 的返回结构不同，面板已统一解析。</div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>QQ</th><th>附言</th><th style="width:90px">类型</th><th style="width:100px">状态</th>
+          <th style="width:180px">申请时间</th><th style="width:170px">操作</th></tr></thead>
+        <tbody>${items.map(r => `
+          <tr>
+            <td class="mono-cell">${esc(r.user_id || "—")}</td>
+            <td class="sub">${esc(r.comment || "（无附言）")}</td>
+            <td><span class="chip">${r.sub_type === "invite" ? "邀请" : "申请"}</span></td>
+            <td>${badge(r.status)}</td>
+            <td class="sub">${esc(fmtTime(r.created_at))}</td>
+            <td>${r.status === "pending" ? `
+              <button class="btn sm primary" data-act="approve" data-flag="${esc(r.flag)}">同意</button>
+              <button class="btn sm danger" data-act="reject" data-flag="${esc(r.flag)}">拒绝</button>` : '<span class="sub">—</span>'}</td>
+          </tr>`).join("") || '<tr><td colspan="6"><div class="empty">没有符合条件的申请</div></td></tr>'}
+        </tbody>
+      </table>
+    </div>`;
+  $("#ap-filter").addEventListener("click", () => { appGroup = ($("#ap-group").value || "").trim(); appStatus = $("#ap-status").value; viewApprovals(); });
+  $("#ap-sync").addEventListener("click", async (e) => {
+    const group_id = ($("#ap-group").value || "").trim();
+    if (!/^\d+$/.test(group_id)) { toast("请先填写群号", "err"); return; }
+    appGroup = group_id;
+    busy(e.currentTarget, true, "同步中");
+    try {
+      const r = await api("/api/approvals/refresh", {method:"POST", body:{group_id, self_id:$("#ap-bot").value || null}});
+      toast("已同步 " + r.count + " 条申请", "ok"); viewApprovals();
+    } catch (err) { toast("同步失败：" + err.message, "err"); }
+    finally { busy(e.currentTarget, false); }
+  });
+  $$("#view button[data-act]").forEach(b => b.addEventListener("click", async (e) => {
+    const approve = e.currentTarget.dataset.act === "approve";
+    const flag = e.currentTarget.dataset.flag;
+    if (!confirm((approve ? "同意" : "拒绝") + "这条入群申请？")) return;
+    busy(e.currentTarget, true, "处理中");
+    try {
+      await api("/api/approvals/handle", {method:"POST", body:{flag, approve, self_id:$("#ap-bot").value || null}});
+      toast(approve ? "已同意" : "已拒绝", "ok"); viewApprovals();
+    } catch (err) { toast("处理失败：" + err.message, "err"); busy(e.currentTarget, false); }
+  }));
+}
+
+/* ============================ 自动回复 ============================ */
+let arGroup = "";
+async function viewAutoreplies() {
+  const d = await api("/api/autoreplies" + (arGroup ? "?group_id=" + encodeURIComponent(arGroup) : ""));
+  const items = d.items || [];
+  const modeName = (m) => m === "exact" ? "精确" : m === "prefix" ? "前缀" : "包含";
+  $("#view").innerHTML = `
+    <div class="card">
+      <div class="toolbar">
+        <label class="field"><span>群号（留空 = 全部）</span>
+          <input id="ar-group" type="text" inputmode="numeric" value="${esc(arGroup)}" placeholder="123456789" style="min-width:200px"></label>
+        <button class="btn" id="ar-load">查看</button>
+        <span class="spacer" style="flex:1"></span>
+        <span class="chip">共 ${items.length} 条</span>
+      </div>
+      <div class="hint">匹配优先级：精确 → 前缀 → 包含；本群规则优先于全局规则（群号留空 = 全局）。</div>
+    </div>
+    <div class="card pad">
+      <h2>新增 / 覆盖规则</h2>
+      <div class="grid c2" style="margin-top:10px">
+        <label class="field"><span>群号（留空 = 全局）</span><input id="ar-n-group" type="text" inputmode="numeric" placeholder="123456789"></label>
+        <label class="field"><span>匹配模式</span>
+          <select id="ar-n-mode"><option value="contains">包含</option><option value="exact">精确</option><option value="prefix">前缀</option></select></label>
+        <label class="field"><span>触发词</span><input id="ar-n-pattern" type="text" placeholder="例如：签到"></label>
+        <label class="field"><span>回复内容</span><input id="ar-n-reply" type="text" placeholder="例如：今天也要元气满满～"></label>
+      </div>
+      <div class="row end"><button class="btn primary" id="ar-add">保存规则</button></div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th style="width:120px">范围</th><th style="width:110px">模式</th><th>触发词</th><th>回复内容</th>
+          <th style="width:90px">状态</th><th style="width:170px">操作</th></tr></thead>
+        <tbody>${items.map(r => `
+          <tr>
+            <td>${r.group_id ? `<span class="chip">${esc(r.group_id)}</span>` : '<span class="chip amber">全局</span>'}</td>
+            <td><span class="chip">${modeName(r.mode)}</span></td>
+            <td class="mono-cell">${esc(r.pattern)}</td>
+            <td class="sub">${esc(r.reply)}</td>
+            <td>${r.enabled ? '<span class="chip ok">启用</span>' : '<span class="chip">停用</span>'}</td>
+            <td>
+              <button class="btn sm" data-tg="${r.id}" data-on="${r.enabled ? "0" : "1"}">${r.enabled ? "停用" : "启用"}</button>
+              <button class="btn sm danger" data-rm="${r.id}">删除</button>
+            </td>
+          </tr>`).join("") || '<tr><td colspan="6"><div class="empty">还没有自动回复规则</div></td></tr>'}
+        </tbody>
+      </table>
+    </div>`;
+  $("#ar-load").addEventListener("click", () => { arGroup = ($("#ar-group").value || "").trim(); viewAutoreplies(); });
+  $("#ar-add").addEventListener("click", async (e) => {
+    const pattern = ($("#ar-n-pattern").value || "").trim(), reply = ($("#ar-n-reply").value || "").trim();
+    if (!pattern || !reply) { toast("触发词与回复内容都不能为空", "err"); return; }
+    const group_id = ($("#ar-n-group").value || "").trim();
+    if (group_id && !/^\d+$/.test(group_id)) { toast("群号必须是数字", "err"); return; }
+    busy(e.currentTarget, true, "保存中");
+    try {
+      await api("/api/autoreplies", {method:"POST", body:{group_id, pattern, reply, mode:$("#ar-n-mode").value}});
+      toast("规则已保存", "ok"); viewAutoreplies();
+    } catch (err) { toast("保存失败：" + err.message, "err"); }
+    finally { busy(e.currentTarget, false); }
+  });
+  $$("#view button[data-tg]").forEach(b => b.addEventListener("click", async (e) => {
+    const id = e.currentTarget.dataset.tg, enabled = e.currentTarget.dataset.on === "1";
+    try { await api("/api/autoreplies/toggle", {method:"POST", body:{id:+id, enabled}}); toast(enabled ? "已启用" : "已停用", "ok"); viewAutoreplies(); }
+    catch (err) { toast("操作失败：" + err.message, "err"); }
+  }));
+  $$("#view button[data-rm]").forEach(b => b.addEventListener("click", async (e) => {
+    if (!confirm("删除这条自动回复规则？")) return;
+    try { await api("/api/autoreplies/" + encodeURIComponent(e.currentTarget.dataset.rm), {method:"DELETE"}); toast("已删除", "ok"); viewAutoreplies(); }
+    catch (err) { toast("删除失败：" + err.message, "err"); }
+  }));
+}
+
+/* ============================ 操作日志 ============================ */
+async function viewAudit() {
+  const d = await api("/api/audit?limit=300");
+  const items = d.items || [];
+  $("#view").innerHTML = `
+    <div class="card">
+      <div class="row">
+        <span class="chip">最近 ${items.length} 条</span>
+        <span class="sub">包含群内指令与面板操作</span>
+        <span class="spacer" style="flex:1"></span>
+        <button class="btn sm" id="au-refresh">刷新</button>
+        <button class="btn sm danger" id="au-clear">清空日志</button>
+      </div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th style="width:150px">时间</th><th style="width:80px">来源</th><th style="width:120px">操作者</th>
+          <th style="width:130px">群号</th><th style="width:120px">对象</th><th style="width:130px">动作</th><th>详情</th></tr></thead>
+        <tbody>${items.map(r => `
+          <tr>
+            <td class="sub">${esc(fmtTime(r.ts))}</td>
+            <td><span class="chip ${r.source === "panel" ? "amber" : ""}">${r.source === "panel" ? "面板" : "群内"}</span></td>
+            <td class="mono-cell">${esc(r.actor || "—")}</td>
+            <td class="mono-cell">${esc(r.group_id || "—")}</td>
+            <td class="mono-cell">${esc(r.target || "—")}</td>
+            <td>${esc(r.action || "")}</td>
+            <td class="sub">${esc(r.detail || "")}</td>
+          </tr>`).join("") || '<tr><td colspan="7"><div class="empty">暂无操作记录</div></td></tr>'}
+        </tbody>
+      </table>
+    </div>`;
+  $("#au-refresh").addEventListener("click", viewAudit);
+  $("#au-clear").addEventListener("click", async (e) => {
+    if (!confirm("清空全部操作日志？")) return;
+    busy(e.currentTarget, true, "清空中");
+    try { await api("/api/audit", {method:"DELETE"}); toast("已清空", "ok"); viewAudit(); }
+    catch (err) { toast("清空失败：" + err.message, "err"); }
+    finally { busy(e.currentTarget, false); }
+  });
+}
+
+/* ============================ 指令 ============================ */
+let cmdDoc = null;
+async function viewCommands() {
+  cmdDoc = await api("/api/commands");
+  const list = cmdDoc.commands || [];
+  $("#view").innerHTML = `
+    <div class="card">
+      <div class="row">
+        <span class="chip">共 ${list.length} 条</span>
+        <span class="chip">屏蔽 ${(cmdDoc.summary||{}).blocked||0}</span>
+        <span class="chip">手工 ${(cmdDoc.summary||{}).manual||0}</span>
+        <span class="spacer" style="flex:1"></span>
+        <button class="btn sm" id="cm-rescan">重新扫描插件</button>
+        <button class="btn sm primary" id="cm-save">保存全部</button>
+      </div>
+      <div class="hint">「面板名」为上报到 QQ 指令面板的按钮文字（留空用主指令名，宽度上限 14）；「屏蔽」勾选后不上传。</div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr>
+          <th style="min-width:110px">主指令</th><th style="min-width:130px">别名</th><th>插件</th>
+          <th style="min-width:170px">说明</th><th style="min-width:130px">面板名</th>
+          <th style="min-width:120px">场景</th><th class="chk">屏蔽</th>
+        </tr></thead>
+        <tbody id="cm-body">
+        ${list.map((c,i) => `
+          <tr data-i="${i}">
+            <td class="w-name">${esc(c.name)}</td>
+            <td>${esc((c.aliases||[]).join(" ")) || '<span class="sub">—</span>'}</td>
+            <td><span class="chip">${esc(c.plugin||"manual")}</span></td>
+            <td><input type="text" data-f="desc" value="${esc(c.desc||"")}" placeholder="说明"></td>
+            <td><input type="text" data-f="panel_name" value="${esc(c.panel_name||"")}" placeholder="${esc(c.name)}"></td>
+            <td>
+              <select data-f="scope" multiple size="2" style="font-size:12px">
+                <option value="group" ${(c.scope||[]).includes("group")?"selected":""}>群</option>
+                <option value="c2c" ${(c.scope||[]).includes("c2c")?"selected":""}>单聊</option>
+              </select>
+            </td>
+            <td class="chk"><input type="checkbox" data-f="block" ${c.block?"checked":""} style="width:auto"></td>
+          </tr>`).join("") || '<tr><td colspan="7"><div class="empty">暂无指令</div></td></tr>'}
+        </tbody>
+      </table>
+    </div>`;
+
+  $("#cm-body").addEventListener("input", (e) => {
+    const td = e.target.closest("td"), tr = e.target.closest("tr");
+    if (!td || !tr) return;
+    const cmd = cmdDoc.commands[+tr.dataset.i]; if (!cmd) return;
+    const f = e.target.dataset.f;
+    if (f === "block") cmd.block = e.target.checked;
+    else if (f === "scope") cmd.scope = $$("option:checked", e.target).map(o => o.value);
+    else if (f) cmd[f] = e.target.value.trim();
+  });
+  $("#cm-save").addEventListener("click", async (e) => {
+    busy(e.currentTarget, true, "保存中");
+    try { await api("/api/commands", {method:"PUT", body:{doc:cmdDoc}}); toast("指令清单已保存", "ok"); }
+    catch (err) { toast("保存失败：" + err.message, "err"); }
+    finally { busy(e.currentTarget, false); }
+  });
+  $("#cm-rescan").addEventListener("click", async (e) => {
+    busy(e.currentTarget, true, "扫描中");
+    try { const r = await api("/api/commands/rescan", {method:"POST"}); toast("已扫描 " + r.count + " 条指令", "ok"); await viewCommands(); }
+    catch (err) { toast("扫描失败：" + err.message, "err"); }
+    finally { busy(e.currentTarget, false); }
+  });
+}
+
+/* ============================ 违禁词 ============================ */
+async function viewAnti() {
+  const [d, cfg] = await Promise.all([api("/api/anti-keywords"), api("/api/config")]);
+  $("#view").innerHTML = `
+    <div class="card">
+      <h2>全局违禁词</h2>
+      <div class="sub">命中后违规次数 +1，累计达到阈值（当前 ${esc(cfg.anti_warn_limit)} 次）自动禁言 ${esc(cfg.anti_mute_duration)} 秒</div>
+      <div class="row" style="margin:12px 0 6px">
+        <input id="ak-input" type="text" placeholder="输入词语后回车，支持逗号分隔批量添加" style="flex:1;min-width:220px">
+        <button class="btn" id="ak-add">添加</button>
+      </div>
+      <div class="taglist" id="ak-list"></div>
+      <div class="row end" style="margin-top:14px"><button class="btn primary" id="ak-save">保存</button></div>
+    </div>
+    <div class="card">
+      <h2>阈值设置</h2>
+      <div class="grid c2">
+        <label class="field"><span>违规次数阈值 anti_warn_limit</span>
+          <input id="cfg-limit" type="number" min="1" value="${esc(cfg.anti_warn_limit)}"></label>
+        <label class="field"><span>禁言时长（秒）anti_mute_duration</span>
+          <input id="cfg-mute" type="number" min="60" value="${esc(cfg.anti_mute_duration)}"></label>
+      </div>
+      <label class="field"><span>数据库 database_url</span>
+        <input id="cfg-db" type="text" value="${esc(cfg.database_url)}"></label>
+      <div class="row end"><button class="btn primary" id="cfg-save">保存设置</button></div>
+    </div>`;
+
+  let words = d.keywords.slice();
+  const paint = () => {
+    $("#ak-list").innerHTML = words.length
+      ? words.map((w,i) => `<span class="chip amber">${esc(w)}<button data-i="${i}" title="删除">×</button></span>`).join("")
+      : '<span class="sub">暂无违禁词</span>';
+  };
+  paint();
+  $("#ak-list").addEventListener("click", (e) => {
+    const b = e.target.closest("button[data-i]"); if (!b) return;
+    words.splice(+b.dataset.i, 1); paint();
+  });
+  const add = () => {
+    const raw = $("#ak-input").value.trim(); if (!raw) return;
+    raw.replace(/[，,\n]/g, ",").split(",").map(s=>s.trim()).filter(Boolean).forEach(w => { if (!words.includes(w)) words.push(w); });
+    $("#ak-input").value = ""; paint();
+  };
+  $("#ak-add").addEventListener("click", add);
+  $("#ak-input").addEventListener("keydown", e => { if (e.key === "Enter") { e.preventDefault(); add(); } });
+  $("#ak-save").addEventListener("click", async (e) => {
+    busy(e.currentTarget, true, "保存中");
+    try { await api("/api/anti-keywords", {method:"PUT", body:{keywords:words}}); toast("违禁词已保存", "ok"); }
+    catch (err) { toast("保存失败：" + err.message, "err"); }
+    finally { busy(e.currentTarget, false); }
+  });
+  $("#cfg-save").addEventListener("click", async (e) => {
+    busy(e.currentTarget, true, "保存中");
+    try {
+      await api("/api/config", {method:"PUT", body:{
+        anti_warn_limit: +$("#cfg-limit").value || 3,
+        anti_mute_duration: +$("#cfg-mute").value || 10800,
+        database_url: $("#cfg-db").value.trim(),
+      }});
+      toast("设置已保存", "ok");
+    } catch (err) { toast("保存失败：" + err.message, "err"); }
+    finally { busy(e.currentTarget, false); }
+  });
+}
+
+/* ============================ 群配置 ============================ */
+async function viewGroups() {
+  const d = await api("/api/groups");
+  const groups = d.groups || [];
+  $("#view").innerHTML = `
+    <div class="card">
+      <div class="row">
+        <span class="chip">已配置 ${groups.length} 个群</span>
+        <span class="spacer" style="flex:1"></span>
+        <input id="g-add" type="text" placeholder="输入群号新增 / 查询" style="width:200px">
+        <button class="btn sm" id="g-load">打开</button>
+      </div>
+      <div class="hint">群配置存在 SQLite（src/data/guanli_panel.db）；未配置的群使用默认值（图文监控开启、无关键词、插件全开）。旧版 guanli.db 的数据会在首次启动时自动搬迁。</div>
+    </div>
+    ${groups.map(g => groupCard(g)).join("") || '<div class="card"><div class="empty">还没有任何群配置</div></div>'}`;
+
+  $("#g-load").addEventListener("click", async () => {
+    const gid = $("#g-add").value.trim(); if (!gid) return;
+    try {
+      const g = await api("/api/groups/" + encodeURIComponent(gid));
+      $("#view").insertAdjacentHTML("beforeend", groupCard(g));
+      bindGroupCard($("#view").lastElementChild);
+      toast("已加载群 " + gid, "ok");
+    } catch (e) { toast("读取失败：" + e.message, "err"); }
+  });
+  $$("#view .card[data-gid]").forEach(bindGroupCard);
+}
+function groupCard(g) {
+  const pl = g.plugins || {};
+  const ex = Object.assign({notice:true, stat:true, autoreply:true, anti_recall:true}, g.extra || {});
+  const sw = (cls, on, label) => `<label class="switch ${on ? "on" : ""}"><input type="checkbox" class="${cls}" ${on ? "checked" : ""}>${label}</label>`;
+  return `
+    <div class="card" data-gid="${esc(g.group_id)}">
+      <div class="row">
+        <h2 style="margin:0">群 ${esc(g.group_id)}</h2>
+        <span class="spacer" style="flex:1"></span>
+        <button class="btn sm primary g-save">保存</button>
+      </div>
+      <div class="switches" style="margin-top:12px">
+        ${sw("g-watch", g.watch_image, "图文监控")}
+        ${sw("g-notice", ex.notice, "入群 / 退群播报")}
+        ${sw("g-stat", ex.stat, "发言统计")}
+        ${sw("g-autoreply", ex.autoreply, "自动回复")}
+        ${sw("g-anti-recall", ex.anti_recall, "违禁词自动撤回")}
+      </div>
+      <div class="grid c2" style="margin-top:14px">
+        <label class="field"><span>群关键词（逗号分隔，留空=无）</span>
+          <input class="g-kw" type="text" value="${esc((g.keywords||[]).join("，"))}" placeholder="例如：开黑，组队"></label>
+        <label class="field"><span>插件开关（plugin=1/0，逗号分隔，留空=全开）</span>
+          <input class="g-pl" type="text" value="${esc(Object.entries(pl).map(([k,v]) => k+"="+(v?1:0)).join("，"))}" placeholder="ftv=1，guanli=0"></label>
+      </div>
+      <div class="grid c2" style="margin-top:2px">
+        <label class="field"><span>入群欢迎语（占位符 {at} {user} {group}，留空=不发送）</span>
+          <textarea class="g-welcome" rows="2" placeholder="欢迎 {at} 加入本群～">${esc(g.welcome||"")}</textarea></label>
+        <label class="field"><span>退群播报（占位符同上，留空=不发送）</span>
+          <textarea class="g-leave" rows="2" placeholder="{user} 离开了群">${esc(g.leave_notice||"")}</textarea></label>
+      </div>
+      <div class="hint">更新于 ${esc(g.updated_at || "—")}</div>
+    </div>`;
+}
+function bindGroupCard(card) {
+  if (!card) return;
+  const btn = $(".g-save", card); if (!btn) return;
+  card.querySelectorAll(".switch input").forEach(inp =>
+    inp.addEventListener("change", () => inp.closest(".switch").classList.toggle("on", inp.checked)));
+  btn.addEventListener("click", async () => {
+    const gid = card.dataset.gid;
+    const split = (s) => s.replace(/[，,]/g, ",").split(",").map(x=>x.trim()).filter(Boolean);
+    const plugins = {};
+    split($(".g-pl", card).value).forEach(kv => {
+      const [k, v] = kv.split("=").map(s => (s||"").trim());
+      if (k) plugins[k] = v !== "0" && v !== "false";
+    });
+    const on = (cls) => !!$("." + cls, card).checked;
+    busy(btn, true, "保存中");
+    try {
+      await api("/api/groups/" + encodeURIComponent(gid), {method:"PUT", body:{
+        watch_image: on("g-watch"),
+        keywords: split($(".g-kw", card).value),
+        plugins,
+        welcome: $(".g-welcome", card).value.trim(),
+        leave_notice: $(".g-leave", card).value.trim(),
+        extra: {
+          notice: on("g-notice"), stat: on("g-stat"),
+          autoreply: on("g-autoreply"), anti_recall: on("g-anti-recall"),
+        },
+      }});
+      toast("群 " + gid + " 已保存", "ok");
+    } catch (e) { toast("保存失败：" + e.message, "err"); }
+    finally { busy(btn, false); }
+  });
+}
+
+/* ============================ 代码文件 ============================ */
+let fileDir = "src/plugins";
+let fileSel = null;
+async function viewFiles() {
+  await Promise.all([paintFiles(), paintEditor()]);
+}
+async function paintFiles() {
+  const d = await api("/api/files?path=" + encodeURIComponent(fileDir || "."));
+  const up = d.parent !== "";
+  const el = $("#files-pane");
+  const html = `
+    <div class="card" style="margin-bottom:12px">
+      <div class="crumbs">
+        <button data-go=".">项目根</button>
+        ${(d.path === "." ? [] : d.path.split("/").reduce((acc, part, i, arr) => {
+            acc.push({label: part, path: arr.slice(0, i+1).join("/")}); return acc;
+          }, [])).map(c => `<span>/</span><button data-go="${esc(c.path)}">${esc(c.label)}</button>`).join("")}
+      </div>
+      <div class="hint">保存 <code>src/plugins/xx/*.py</code> 会自动重载该插件；保存 <code>util/guanli_panel/*.py</code> 会用新代码重启面板后端（前端 <code>static/index.html</code> 改完刷新即生效）。原文件会先备份为 <code>*.bak</code>。</div>
+    </div>
+    <div class="filelist">
+      ${up ? `<div class="file-row" data-go="${esc(d.parent)}"><span class="ico">↰</span><span class="nm">.. 上一级</span></div>` : ""}
+      ${d.items.map(it => `
+        <div class="file-row" data-${it.is_dir ? "go" : "open"}="${esc(it.path)}">
+          <span class="ico">${it.is_dir ? "📁" : it.editable ? "📝" : "📄"}</span>
+          <span class="nm">${esc(it.name)}</span>
+          <span class="meta">${it.is_dir ? "" : fmtSize(it.size)}</span>
+        </div>`).join("") || '<div class="empty">空目录</div>'}
+    </div>`;
+  if (!el) { $("#view").innerHTML = `<div class="grid c2" style="grid-template-columns:minmax(260px,360px) 1fr"><div><div id="files-pane">${html}</div></div><div id="editor-pane"></div></div>`; }
+  else el.innerHTML = html;
+  $("#files-pane").addEventListener("click", (e) => {
+    const row = e.target.closest(".file-row"); if (!row) return;
+    if (row.dataset.go !== undefined) { fileDir = row.dataset.go; paintFiles(); }
+    else if (row.dataset.open !== undefined) { fileSel = row.dataset.open; loadFile(fileSel); }
+  });
+  $$("#files-pane .crumbs [data-go]").forEach(b => b.addEventListener("click", () => { fileDir = b.dataset.go; paintFiles(); }));
+}
+async function paintEditor() {
+  const pane = $("#editor-pane"); if (!pane) return;
+  pane.innerHTML = `<div class="card pad"><div class="empty">从左侧选择一个文件进行查看 / 修改</div></div>`;
+}
+async function loadFile(path) {
+  const pane = $("#editor-pane"); if (!pane) return;
+  pane.innerHTML = `<div class="card"><div class="empty">读取中…</div></div>`;
+  try {
+    const d = await api("/api/file?path=" + encodeURIComponent(path));
+    pane.innerHTML = `
+      <div class="card pad">
+        <div class="row">
+          <h2 style="margin:0" class="mono">${esc(d.path)}</h2>
+          <span class="chip">${fmtSize(d.size)}</span>
+          <span class="spacer" style="flex:1"></span>
+          <button class="btn sm" id="f-reload">还原</button>
+          <button class="btn sm primary" id="f-save">保存并热重载</button>
+        </div>
+        <div class="hint">更新于 ${esc(d.mtime)}</div>
+        <textarea class="editor" id="f-body" spellcheck="false"></textarea>
+      </div>`;
+    const ta = $("#f-body");
+    ta.value = d.content;
+    ta.addEventListener("keydown", (e) => {
+      if (e.key === "Tab") { e.preventDefault();
+        const s = ta.selectionStart, en = ta.selectionEnd;
+        ta.value = ta.value.slice(0, s) + "    " + ta.value.slice(en);
+        ta.selectionStart = ta.selectionEnd = s + 4; }
+    });
+    $("#f-reload").addEventListener("click", () => loadFile(path));
+    $("#f-save").addEventListener("click", async (e) => {
+      busy(e.currentTarget, true, "保存中");
+      try {
+        await api("/api/file", {method:"PUT", body:{path, content: ta.value}});
+      } catch (err) { toast("保存失败：" + err.message, "err"); busy(e.currentTarget, false); return; }
+      busy(e.currentTarget, false);
+      toast("已保存（原文件备份为 .bak）", "ok");
+      const target = reloadTarget(path);
+      if (!target) return;
+      try {
+        const r = await api("/api/reload", {method:"POST", body:target});
+        if (r.panel) { toast(r.panel, "ok"); setTimeout(() => location.reload(), 2200); return; }
+        const bad = Object.keys(r.failed || {});
+        if (bad.length) toast("热重载有失败项：" + bad.map(k => k + "（" + r.failed[k] + "）").join("；"), "err");
+        else toast("已热重载：" + ((r.plugins && r.plugins.length) ? r.plugins.join(" / ") : "配置 / 权限 / 上下文"), "ok");
+      } catch (err) { toast("热重载失败：" + err.message + "，可点右上角「热重载」重试", "err"); }
+    });
+  } catch (e) {
+    pane.innerHTML = `<div class="card"><div class="empty">打开失败：${esc(e.message)}</div></div>`;
+  }
+}
+
+/* ============================ 日志 ============================ */
+async function viewLogs() {
+  const d = await api("/api/logs?lines=300");
+  const lines = d.lines || [];
+  const colorize = (l) => esc(l)
+    .replace(/\b(ERROR|CRITICAL)\b/g, '<b style="color:var(--danger)">$1</b>')
+    .replace(/\b(WARNING|WARN)\b/g, '<b style="color:var(--warn)">$1</b>')
+    .replace(/\b(SUCCESS)\b/g, '<b style="color:var(--ok)">$1</b>')
+    .replace(/\b(INFO|DEBUG)\b/g, '<b style="color:var(--brand-amber)">$1</b>');
+  $("#view").innerHTML = `
+    <div class="card">
+      <div class="row">
+        <span class="chip">最近 ${lines.length} 行</span>
+        <span class="spacer" style="flex:1"></span>
+        <button class="btn sm" id="lg-refresh">刷新</button>
+        <button class="btn sm" id="lg-bottom">跳到底部</button>
+      </div>
+    </div>
+    <pre class="logbox" id="lg-box">${lines.map(colorize).join("\n") || "暂无日志"}</pre>`;
+  const box = $("#lg-box");
+  box.scrollTop = box.scrollHeight;
+  $("#lg-refresh").addEventListener("click", viewLogs);
+  $("#lg-bottom").addEventListener("click", () => { box.scrollTop = box.scrollHeight; });
+}
+
+/* ============================ 面板账号 ============================ */
+async function viewAccounts() {
+  const d = await api("/api/users");
+  let sess = { sessions: [] };
+  try { sess = await api("/api/sessions"); } catch (e) {}
+  const users = d.users || [];
+  const roles = d.roles || [{value:"admin", label:"管理员 · 可读写"}, {value:"viewer", label:"只读 · 仅查看"}];
+  const roleOpts = (cur) => roles.map(r =>
+    `<option value="${esc(r.value)}" ${r.value === cur ? "selected" : ""}>${esc(r.label)}</option>`).join("");
+
+  $("#view").innerHTML = `
+    <div class="card pad">
+      <h2>新建面板账号</h2>
+      <div class="sub">账号密码登录用的是面板自己的账号库（scrypt 加盐哈希），与 OIDC 互不影响。</div>
+      <div class="grid c3" style="margin-top:12px">
+        <label class="field"><span>用户名</span><input id="us-name" type="text" placeholder="登录名"></label>
+        <label class="field"><span>显示名（可选）</span><input id="us-display" type="text" placeholder="留空 = 同用户名"></label>
+        <label class="field"><span>角色</span><select id="us-role">${roleOpts("admin")}</select></label>
+        <label class="field"><span>初始密码</span><input id="us-pass" type="text" placeholder="至少 6 位" autocomplete="new-password"></label>
+      </div>
+      <div class="row end"><button class="btn primary" id="us-create">创建账号</button></div>
+      <div class="hint">角色说明：<b>管理员</b>可读写全部功能；<b>只读</b>只能查看数据，所有写接口都会被后端拒绝。</div>
+    </div>
+
+    <div class="card pad">
+      <h2>账号列表（${users.length}）</h2>
+      <div class="sub">改完角色 / 显示名 / 启用状态后点该行的「保存」；「改密」会同时踢掉该账号的在线会话。</div>
+      <div class="table-wrap" style="margin-top:12px">
+        <table>
+          <thead><tr>
+            <th style="width:150px">用户名</th><th style="width:150px">显示名</th>
+            <th style="width:170px">角色</th><th style="width:70px">启用</th>
+            <th style="width:170px">凭据</th><th style="width:150px">最近登录</th>
+            <th style="width:180px">操作</th>
+          </tr></thead>
+          <tbody>${users.map(u => `
+            <tr>
+              <td class="w-name">${esc(u.username)}${u.is_self ? ' <span class="chip amber">当前</span>' : ""}</td>
+              <td><input type="text" id="dn-${esc(u.username)}" value="${esc(u.display_name || "")}"></td>
+              <td><select id="role-${esc(u.username)}" ${u.is_self ? "disabled" : ""}>${roleOpts(u.role)}</select></td>
+              <td class="chk"><input type="checkbox" id="en-${esc(u.username)}" ${u.enabled ? "checked" : ""} ${u.is_self ? "disabled" : ""}></td>
+              <td>
+                ${u.has_password ? '<span class="chip ok">口令</span>' : '<span class="chip">无口令</span>'}
+                <span class="chip ${u.provider === "oidc" ? "amber" : ""}">${esc(u.provider || "local")}</span>
+              </td>
+              <td class="sub">${esc(fmtTime(u.last_login_at) || "—")}</td>
+              <td><div class="row" style="gap:6px">
+                <button class="btn sm" data-act="save" data-u="${esc(u.username)}">保存</button>
+                <button class="btn sm" data-act="pwd" data-u="${esc(u.username)}">改密</button>
+                <button class="btn sm danger" data-act="del" data-u="${esc(u.username)}" ${u.is_self ? "disabled" : ""}>删除</button>
+              </div></td>
+            </tr>`).join("") || '<tr><td colspan="7"><div class="empty">还没有账号</div></td></tr>'}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>在线会话（${(sess.sessions || []).length}）</h2>
+      <div class="sub">会话存于 SQLite，插件热重载不会掉线；过期会话会自动清理。</div>
+      <div class="table-wrap" style="margin-top:12px">
+        <table>
+          <thead><tr>
+            <th style="width:150px">账号</th><th style="width:110px">角色</th><th style="width:110px">来源</th>
+            <th style="width:140px">IP</th><th>客户端</th>
+            <th style="width:150px">最近活跃</th><th style="width:120px">操作</th>
+          </tr></thead>
+          <tbody>${(sess.sessions || []).map(s => `
+            <tr>
+              <td class="w-name">${esc(s.username)}${s.is_self ? ' <span class="chip amber">本次</span>' : ""}</td>
+              <td><span class="chip">${esc(s.role)}</span></td>
+              <td><span class="chip ${s.provider === "oidc" ? "amber" : ""}">${esc(s.provider || "local")}</span></td>
+              <td class="mono-cell">${esc(s.ip || "—")}</td>
+              <td class="sub">${esc(s.ua || "—")}</td>
+              <td class="sub">${esc(fmtTime(s.seen_at))}</td>
+              <td><button class="btn sm danger" data-act="kick" data-u="${esc(s.username)}">强制下线</button></td>
+            </tr>`).join("") || '<tr><td colspan="7"><div class="empty">当前没有在线会话</div></td></tr>'}
+          </tbody>
+        </table>
+      </div>
+    </div>`;
+
+  $("#us-create").addEventListener("click", async (e) => {
+    const username = ($("#us-name").value || "").trim();
+    const password = $("#us-pass").value;
+    if (!username) { toast("请填写用户名", "err"); return; }
+    if (!password) { toast("请填写初始密码", "err"); return; }
+    busy(e.currentTarget, true, "创建中");
+    try {
+      await api("/api/users", {method:"POST", body:{username, password, role:$("#us-role").value, display_name:($("#us-display").value || "").trim()}});
+      toast("账号已创建", "ok"); viewAccounts();
+    } catch (err) { toast("创建失败：" + err.message, "err"); busy(e.currentTarget, false); }
+  });
+
+  $$("#view button[data-act]").forEach(btn => btn.addEventListener("click", async () => {
+    const u = btn.dataset.u, act = btn.dataset.act;
+    if (act === "save") {
+      const body = {display_name: ($("#dn-" + u).value || "").trim(), enabled: $("#en-" + u).checked};
+      const sel = $("#role-" + u);
+      if (sel && !sel.disabled) body.role = sel.value;
+      busy(btn, true, "保存中");
+      try { await api("/api/users/" + encodeURIComponent(u), {method:"PUT", body}); toast("已保存", "ok"); viewAccounts(); }
+      catch (err) { toast("保存失败：" + err.message, "err"); busy(btn, false); }
+      return;
+    }
+    if (act === "pwd") {
+      const pwd = prompt("给账号 " + u + " 设置新密码（留空表示清除口令，改用 OIDC 登录）", "");
+      if (pwd === null) return;
+      if (!pwd && !confirm("留空会清除该账号的密码，之后只能用 OIDC 登录。确定继续？")) return;
+      busy(btn, true, "提交中");
+      try { await api("/api/users/" + encodeURIComponent(u), {method:"PUT", body:{password:pwd}}); toast("密码已更新", "ok"); viewAccounts(); }
+      catch (err) { toast("修改失败：" + err.message, "err"); busy(btn, false); }
+      return;
+    }
+    if (act === "del") {
+      if (!confirm("确定删除账号 " + u + "？该账号的在线会话会一并清理。")) return;
+      busy(btn, true, "删除中");
+      try { await api("/api/users/" + encodeURIComponent(u), {method:"DELETE"}); toast("已删除", "ok"); viewAccounts(); }
+      catch (err) { toast("删除失败：" + err.message, "err"); busy(btn, false); }
+      return;
+    }
+    if (act === "kick") {
+      if (!confirm("强制账号 " + u + " 的所有会话下线？")) return;
+      busy(btn, true, "处理中");
+      try { const r = await api("/api/sessions", {method:"DELETE", body:{username:u}});
+        toast("已清除 " + (r.revoked | 0) + " 个会话", "ok"); viewAccounts(); }
+      catch (err) { toast("操作失败：" + err.message, "err"); busy(btn, false); }
+    }
+  }));
+}
+
+/* ============================ 面板设置 ============================ */
+/* 与后端 oidc_redirect_uri() 保持一致：去掉末尾斜杠再拼回调路径 */
+function oidcCallback(d) {
+  const base = String((d && d.panel && d.panel.url) || "").replace(/\/+$/, "");
+  return base + "/api/oidc/callback";
+}
+
+async function viewSettings() {
+  const d = await api("/api/overview");
+  await loadAuthConfig();
+  const cfg = AUTH.raw || {};
+  const oidc = cfg.oidc || {};
+  const badge = (ok, yes, no) => ok
+    ? '<span class="chip ok">' + yes + "</span>"
+    : '<span class="chip">' + no + "</span>";
+
+  $("#view").innerHTML = `
+    <div class="card pad">
+      <h2>登录方式</h2>
+      <div class="sub">面板支持三种渠道并存，任何一条可用就不会把自己锁在门外。</div>
+      <div class="table-wrap" style="margin-top:12px">
+        <table>
+          <thead><tr><th style="width:170px">渠道</th><th style="width:120px">状态</th><th>说明</th></tr></thead>
+          <tbody>
+            <tr>
+              <td class="w-name">账号密码</td>
+              <td>${badge(cfg.password !== false, "已启用", "无账号")}</td>
+              <td class="sub">面板自建账号，scrypt 加盐哈希；在「面板账号」里增删改。首个管理员由 <code>GUANLI_ADMIN_USER</code> / <code>GUANLI_ADMIN_PASSWORD</code> 初始化。</td>
+            </tr>
+            <tr>
+              <td class="w-name">${esc(oidc.name || "统一身份认证")}</td>
+              <td>${badge(oidc.enabled, "已启用", "未配置")}</td>
+              <td class="sub">OIDC 授权码 + PKCE。需要 <code>GUANLI_OIDC_ISSUER</code> 与 <code>GUANLI_OIDC_CLIENT_ID</code>，可选 <code>GUANLI_OIDC_CLIENT_SECRET</code>；
+                ${oidc.restricted ? "已配置邮箱 / 域名允许名单。" : "未配置允许名单，该 IdP 下任何用户都能进面板，建议补上 <code>GUANLI_OIDC_ALLOWED_EMAILS</code> / <code>GUANLI_OIDC_ALLOWED_DOMAINS</code>。"}
+                回调地址 <code>${esc(oidcCallback(d))}</code>。</td>
+            </tr>
+            <tr>
+              <td class="w-name">访问口令</td>
+              <td>${badge(cfg.token !== false, "已启用", "已关闭")}</td>
+              <td class="sub">应急通道：<code>GUANLI_TOKEN</code> 指定，未设置则首次启动随机生成。OIDC 故障或忘记密码时用它登录。</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="hint">会话有效期由 <code>GUANLI_SESSION_HOURS</code> 控制，当前 ${esc(String(cfg.session_hours || 168))} 小时。</div>
+    </div>
+
+    <div class="card pad">
+      <h2>对外地址</h2>
+      <div class="sub">用于 QQ 指令把可点击链接发给管理员，也是 OIDC 回调地址的拼接依据</div>
+      <div class="row" style="margin-top:12px">
+        <input id="st-host" type="text" placeholder="例如：43.226.60.136:28788 或 https://bot.example.com" style="flex:1;min-width:240px">
+        <button class="btn primary" id="st-host-save">保存</button>
+      </div>
+      <div class="hint">
+        这里要填 <b>公网</b>地址，且<b>必须带端口</b> —— 面板走端口直通，当前监听
+        <code>${esc(String(d.panel.host || "127.0.0.1"))}:${esc(String(d.panel.port || 28788))}</code>。<br>
+        服务器在 NAT 后面时，填 <b>映射后的公网端口</b>（如 <code>43.226.60.136:28788</code>）——
+        只写 IP 会按 80 端口拼链接，公网打开就是「拒绝连接」。
+      </div>
+      <div class="hint">当前生效地址：<code>${esc(d.panel.url)}</code></div>
+      ${/^https?:\/\/(127\.0\.0\.1|localhost|\[::1\])/.test(String(d.panel.url))
+        ? '<div class="hint" style="color:var(--warn)">当前生效地址是 <code>127.0.0.1</code>，只有服务器自己打得开，发到公网必然「拒绝连接」：请在上面填公网地址后保存。</div>'
+        : ''}
+    </div>
+
+    <div class="card">
+      <h2>重置访问口令</h2>
+      <div class="sub">重置会写回 <code>src/data/guanli/panel.json</code> 并让当前会话失效；若要固定口令，请在 .env 设置 <code>GUANLI_TOKEN</code>（环境变量优先）。</div>
+      <div class="row end" style="margin-top:12px"><button class="btn danger" id="st-reset">重置口令</button></div>
+      <div class="hint" id="st-token"></div>
+    </div>
+
+    <div class="card">
+      <h2>部署提示</h2>
+      <div class="sub">
+        面板监听 <code>${esc(d.panel.host)}:${esc(d.panel.port)}</code>，端口直通对外（<code>GUANLI_HOST=0.0.0.0</code> 才能被公网访问）；默认 HTTPS 自签证书，浏览器提示不受信任点「继续」即可，不需要 nginx。<br>
+        修改 <code>util/guanli_panel/static/index.html</code> 后刷新浏览器即生效（前端不做缓存）。<br>
+        修改插件 <code>.py</code> 后由 NoneBot <code>hot_reload</code> 自动重载，或点右上角「热重载」。
+      </div>
+    </div>`;
+
+  $("#st-host-save").addEventListener("click", async (e) => {
+    busy(e.currentTarget, true, "保存中");
+    try { const r = await api("/api/panel/host", {method:"POST", body:{host:$("#st-host").value.trim()}});
+      toast("已保存：" + r.url, "ok"); }
+    catch (err) { toast("保存失败：" + err.message, "err"); }
+    finally { busy(e.currentTarget, false); }
+  });
+  $("#st-reset").addEventListener("click", async (e) => {
+    if (!confirm("重置口令后当前会话将失效，确定继续？")) return;
+    busy(e.currentTarget, true, "重置中");
+    try { const r = await api("/api/panel/reset-token", {method:"POST"});
+      $("#st-token").innerHTML = "新口令：<code>" + esc(r.token) + "</code>（已自动登录）";
+      toast("口令已重置", "ok"); }
+    catch (err) { toast("重置失败：" + err.message, "err"); }
+    finally { busy(e.currentTarget, false); }
+  });
+}
+
+/* ============================ 启动 ============================ */
+(async function boot() {
+  try { const t = localStorage.getItem("guanli-theme");
+    if (t) { document.documentElement.dataset.theme = t; $("#theme-btn").textContent = t === "dark" ? "浅色" : "深色"; } } catch(e){}
+  /* OIDC 失败时后端会带着 ?auth_error=... 跳回首页，这里取出来显示在登录框里 */
+  const params = new URLSearchParams(location.search);
+  const authError = params.get("auth_error");
+  try { await loadAuthConfig(); } catch (e) {}
+  try {
+    const s = await api("/api/session");
+    if (s.authorized) { applyUser(s.user); await render(); }
+    else { applyUser(null); showGate(true); }
+  } catch (e) { applyUser(null); showGate(true); }
+  if (authError) gateMsg(authError);
+  if (authError) { try { history.replaceState(null, "", location.pathname); } catch (e) {} }
+})();
+</script>
+</body>
+</html>
