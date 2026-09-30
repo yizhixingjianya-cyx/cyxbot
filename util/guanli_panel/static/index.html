@@ -1707,13 +1707,13 @@ async function viewSettings() {
       <h2>对外地址</h2>
       <div class="sub">用于 QQ 指令把可点击链接发给管理员，也是 OIDC 回调地址的拼接依据</div>
       <div class="row" style="margin-top:12px">
-        <input id="st-host" type="text" placeholder="例如：43.226.60.136:28788 或 https://bot.example.com" style="flex:1;min-width:240px">
+        <input id="st-host" type="text" placeholder="例如：1.2.3.4:28788 或 https://bot.example.com" style="flex:1;min-width:240px">
         <button class="btn primary" id="st-host-save">保存</button>
       </div>
       <div class="hint">
         这里要填 <b>公网</b>地址，且<b>必须带端口</b> —— 面板走端口直通，当前监听
         <code>${esc(String(d.panel.host || "127.0.0.1"))}:${esc(String(d.panel.port || 28788))}</code>。<br>
-        服务器在 NAT 后面时，填 <b>映射后的公网端口</b>（如 <code>43.226.60.136:28788</code>）——
+        服务器在 NAT 后面时，填 <b>映射后的公网端口</b>（如 <code>1.2.3.4:28788</code>）——
         只写 IP 会按 80 端口拼链接，公网打开就是「拒绝连接」。
       </div>
       <div class="hint">当前生效地址：<code>${esc(d.panel.url)}</code></div>

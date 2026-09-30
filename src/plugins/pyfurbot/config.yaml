@@ -1,0 +1,27 @@
+# Furtv API 配置文件
+api:
+  appid: your_appid
+  appkey: your_appkey
+  baseurl: https://api-vdp.hydun.com
+
+# 毛图API配置
+furry_api:
+  base_url: https://furry.axzt.top
+  format: json
+  redirect: 1
+  mode: large
+  command: .furry
+  request_timeout: 30
+
+# 每日鉴毛(Furry Will / Furry Gallery) API 配置
+furry_will:
+  base_url: https://mrjm.fur-bot.com
+  jwt_secret: your_jwt_secret
+  jwt_qq: "1234567890"
+
+# 默认图片配置
+images:
+  vertical: https://tse1-mm.cn.bing.net/th/id/OIP-C.VeGlN8GP0jnVxlvUjszMEQHaO0?w=175&h=350&c=7&r=0&o=5&pid=1.7
+  avatar: https://vcos.vds.pub/static/furtv/default.jpg
+  horizontal: https://tse2-mm.cn.bing.net/th/id/OIP-C.iYmWWijzITKLV-GqJERBlgHaD1?w=203&h=105&c=7&r=0&o=5&pid=1.7
+  showcase: https://tse2-mm.cn.bing.net/th/id/OIP-C.MHxLdjzqbkH5RmuQctlAGgHaHa?w=203&h=203&c=7&r=0&o=5&pid=1.7

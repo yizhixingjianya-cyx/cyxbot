@@ -1,0 +1,226 @@
+# 全局配置
+# 数据库配置
+database:
+  path: "data/"
+  # 数据库连接超时（秒）
+  timeout: 30
+  # 是否启用连接池
+  pool_enabled: true
+  # 连接池大小
+  pool_size: 10
+
+# 机器人配置
+bot:
+  # 命令前缀
+  command_start: ["!","/","?","#"]
+  # 命令分隔符
+  command_sep: []
+  # 超级用户QQ号列表
+  superusers: ["1234567890","9876543210"]
+  # 机器人昵称
+  nickname: "cangyao"
+  # 自动回复开关
+  auto_reply: true
+  # 会话超时时间（秒）
+  session_expire_timeout: 3600
+  # 会话过期消息
+  session_expire_message: true
+  # 会话过期提醒时间（秒）
+  session_expire_warning_time: 300
+  # 日志级别
+  log_level: "INFO"
+  # 是否启用调试模式
+  debug: false
+  # 是否启用单会话模式
+  single_session: false
+  # 是否启用跨会话调用
+  api_timeout: 10
+  # 最大重试次数
+  max_retry_times: 3
+  # 是否启用插件热重载
+  hot_reload: true
+  # 插件目录
+  plugin_dirs: ["src/plugins"]
+  # 插件忽略列表
+  plugin_ignore: []
+  # 是否启用插件依赖自动安装
+  plugin_auto_install: false
+  # 是否启用插件依赖自动更新
+  plugin_auto_update: false
+  # 是否启用插件依赖自动卸载
+  plugin_auto_uninstall: false
+  # 是否启用插件依赖自动清理
+  plugin_auto_clean: false
+
+# API配置
+api:
+  # 请求超时（秒）
+  timeout: 10
+  # 重试次数
+  retries: 2
+  # 代理配置
+  proxy: ""
+
+# 插件配置
+plugins:
+  # 管理插件配置
+  guanli:
+    # 违禁词列表
+    anti_keywords: []
+    # 触发禁言的违规次数阈值
+    anti_warn_limit: 3
+    # 禁言时长（秒）
+    anti_mute_duration: 10800
+    # 数据库URL
+    database_url: "sqlite:///data/guanli.db"
+
+  # 舞萌插件配置
+  maimai2:
+    # 舞萌API令牌
+    maimaidxtoken: ""
+    # 舞萌静态资源路径
+    maimaidxpath: "data/static"
+    # 是否启用代理
+    maimaidxproberproxy: false
+    maimaidxaliasproxy: false
+    # 是否在内存中保存数据
+    saveinmem: true
+    # 机器人名称
+    botName: "cangyao"
+
+  # 帮助插件配置
+  help:
+    # 帮助文档输出格式
+    help_output_format: "png"
+    # 帮助文档背景图片路径
+    help_background_path: "default_background.png"
+    # 字体大小
+    help_font_size: 24
+
+  # 成就插件配置
+  achievements:
+    # 成就数据库路径
+    db_path: "data/achievements.db"
+    # 成就图标路径
+    icon_path: "icon/"
+
+  # 黑名单插件配置
+  blacklist:
+    # 命令黑名单文件路径
+    command_blacklist_path: "command_blacklist.json"
+
+  # 图片读取插件配置
+  image_reader:
+    # 默认字体
+    default_font: "Cubic_11.ttf"
+    # 字体大小
+    font_size: 24
+
+  # 乐子插件配置
+  lezi:
+    # 每日通行证配置
+    daypass:
+      # 每日任务刷新时间
+      refresh_time: "00:00"
+      # 任务奖励
+      reward: 100
+    # 骰子游戏配置
+    dice:
+      # 最大骰子点数
+      max_sides: 100
+    # 色图插件配置
+    setu:
+      # 色图API地址
+      api_url: ""
+      # 每次获取数量
+      count: 1
+
+  # 戳一戳插件配置
+  poke:
+    # 戳一戳回复概率
+    reply_probability: 0.5
+    # 回复消息列表
+    reply_messages: []
+
+  # 简单插件配置
+  simple:
+    # 复读配置
+    fudu:
+      # 复读阈值
+      threshold: 3
+      # 复读冷却时间（秒）
+      cooldown: 60
+    # 身份验证配置
+    id:
+      # 验证超时时间（秒）
+      timeout: 300
+    # 撤回配置
+    recall:
+      # 撤回检测开关
+      enabled: true
+      # 撤回消息保存时长（天）
+      save_days: 7
+    # 点赞配置
+    zan:
+      # 点赞上限
+      max_zans: 100
+
+  # AI聊天插件配置
+  aichat:
+    # 聊天历史数据库路径
+    chat_history_db: "data/chat_history.db"
+    # 预设数据库路径
+    presets_db: "data/presets.db"
+    # 最大上下文长度
+    max_context_length: 10
+    # 回复温度
+    temperature: 0.7
+
+  # 媒体监控插件配置
+  media_monitor:
+    # 监控数据库路径
+    db_path: "data/media_monitor.db"
+    # 监控间隔（秒）
+    interval: 300
+    # 监控关键词
+    keywords: []
+
+  # 用户绑定插件配置
+  pyfurbot:
+    # 用户绑定数据库路径
+    user_bindings_db: "data/user_bindings.db"
+    # 绑定有效期（天）
+    binding_expiry_days: 30
+
+# 日志配置
+logging:
+  # 日志级别
+  level: "INFO"
+  # 日志格式
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  # 日志文件路径
+  file_path: "logs/bot.log"
+  # 日志文件大小限制（MB）
+  max_file_size: 100
+  # 保留日志文件数量
+  backup_count: 5
+
+# 性能配置
+performance:
+  # 并发请求限制
+  max_concurrent_requests: 10
+  # 缓存大小
+  cache_size: 1000
+  # 缓存过期时间（秒）
+  cache_expiry: 3600
+
+# 安全配置
+security:
+  # 是否启用IP白名单
+  ip_whitelist_enabled: false
+  # IP白名单列表
+  ip_whitelist: []
+  # 是否启用请求频率限制
+  rate_limit_enabled: true
+  # 每分钟最大请求数
+  rate_limit_max_requests: 60

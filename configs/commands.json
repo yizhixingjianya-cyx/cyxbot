@@ -1,0 +1,1334 @@
+{
+  "version": 1,
+  "updated_at": "2026-09-28T23:32:40+08:00",
+  "sync_enabled": true,
+  "scopes": [
+    "group",
+    "c2c"
+  ],
+  "commands": [
+    {
+      "name": "cancel_game",
+      "panel_name": "",
+      "aliases": [
+        "取消"
+      ],
+      "plugin": "lezi",
+      "desc": "",
+      "scope": [
+        "group",
+        "c2c"
+      ],
+      "block": true,
+      "manual": true
+    },
+    {
+      "name": "current",
+      "panel_name": "",
+      "aliases": [
+        "页码",
+        "当前页"
+      ],
+      "plugin": "image_reader",
+      "desc": "",
+      "scope": [
+        "group",
+        "c2c"
+      ],
+      "block": true,
+      "manual": true
+    },
+    {
+      "name": "echo",
+      "panel_name": "",
+      "aliases": [],
+      "plugin": "echo",
+      "desc": "",
+      "scope": [
+        "group",
+        "c2c"
+      ],
+      "block": true,
+      "manual": false
+    },
+    {
+      "name": "goto",
+      "panel_name": "",
+      "aliases": [
+        "跳转",
+        "页码跳转"
+      ],
+      "plugin": "image_reader",
+      "desc": "",
+      "scope": [
+        "group",
+        "c2c"
+      ],
+      "block": true,
+      "manual": true
+    },
+    {
+      "name": "imghelp",
+      "panel_name": "",
+      "aliases": [
+        "图片帮助",
+        "阅读器帮助"
+      ],
+      "plugin": "image_reader",
+      "desc": "",
+      "scope": [
+        "group",
+        "c2c"
+      ],
+      "block": true,
+      "manual": true
+    },
+    {
+      "name": "imgread",
+      "panel_name": "",
+      "aliases": [
+        "图片阅读",
+        "打开阅读器"
+      ],
+      "plugin": "image_reader",
+      "desc": "",
+      "scope": [
+        "group",
+        "c2c"
+      ],
+      "block": true,
+      "manual": true
+    },
+    {
+      "name": "jrrp",
+      "panel_name": "",
+      "aliases": [
+        "今日人品"
+      ],
+      "plugin": "lezi",
+      "desc": "",
+      "scope": [
+        "group",
+        "c2c"
+      ],
+      "block": true,
+      "manual": true
+    },
+    {
+      "name": "mcsm",
+      "panel_name": "",
+      "aliases": [
+        "节点",
+        "服务器状态",
+        "mcsm状态"
+      ],
+      "plugin": "mcsm",
+      "desc": "",
+      "scope": [
+        "group",
+        "c2c"
+      ],
+      "block": true,
+      "manual": true
+    },
+    {
+      "name": "md",
+      "panel_name": "",
+      "aliases": [
+        "HOC",
+        "老乡鸡"
+      ],
+      "plugin": "hoc",
+      "desc": "",
+      "scope": [
+        "group",
+        "c2c"
+      ],
+      "block": true,
+      "manual": true
+    },
+    {
+      "name": "mdselect",
+      "panel_name": "",
+      "aliases": [
+        "选择菜谱"
+      ],
+      "plugin": "hoc",
+      "desc": "",
+      "scope": [
+        "group",
+        "c2c"
+      ],
+      "block": true,
+      "manual": true
+    },
+    {
+      "name": "metrowordle",
+      "panel_name": "",
+      "aliases": [
+        "新开一局",
+        "开始猜站名"
+      ],
+      "plugin": "station",
+      "desc": "",
+      "scope": [
+        "group",
+        "c2c"
+      ],
+      "block": true,
+      "manual": true
+    },
+    {
+      "name": "next",
+      "panel_name": "",
+      "aliases": [
+        "下翻",
+        "下一页"
+      ],
+      "plugin": "image_reader",
+      "desc": "",
+      "scope": [
+        "group",
+        "c2c"
+      ],
+      "block": true,
+      "manual": true
+    },
+    {
+      "name": "ping",
+      "panel_name": "",
+      "aliases": [
+        "延迟",
+        "speedtest"
+      ],
+      "plugin": "latency_test",
+      "desc": "",
+      "scope": [
+        "group",
+        "c2c"
+      ],
+      "block": true,
+      "manual": false
+    },
+    {
+      "name": "poke",
+      "panel_name": "",
+      "aliases": [
+        "戳"
+      ],
+      "plugin": "poke",
+      "desc": "",
+      "scope": [
+        "group",
+        "c2c"
+      ],
+      "block": false,
+      "manual": true
+    },
+    {
+      "name": "prev",
+      "panel_name": "",
+      "aliases": [
+        "上翻",
+        "上一页"
+      ],
+      "plugin": "image_reader",
+      "desc": "",
+      "scope": [
+        "group",
+        "c2c"
+      ],
+      "block": true,
+      "manual": true
+    },
+    {
+      "name": "setu",
+      "panel_name": "",
+      "aliases": [
+        "颜色",
+        "color"
+      ],
+      "plugin": "lezi",
+      "desc": "",
+      "scope": [
+        "group",
+        "c2c"
+      ],
+      "block": true,
+      "manual": true
+    },
+    {
+      "name": "tarot",
+      "panel_name": "",
+      "aliases": [
+        "塔罗牌",
+        "抽塔罗"
+      ],
+      "plugin": "tarot",
+      "desc": "",
+      "scope": [
+        "group",
+        "c2c"
+      ],
+      "block": true,
+      "manual": true
+    },
+    {
+      "name": "tarot_help",
+      "panel_name": "",
+      "aliases": [
+        "塔罗牌帮助",
+        "抽塔罗帮助"
+      ],
+      "plugin": "tarot",
+      "desc": "",
+      "scope": [
+        "group",
+        "c2c"
+      ],
+      "block": true,
+      "manual": true
+    },
+    {
+      "name": "wife",
+      "panel_name": "",
+      "aliases": [],
+      "plugin": "lezi",
+      "desc": "",
+      "scope": [
+        "group",
+        "c2c"
+      ],
+      "block": true,
+      "manual": true
+    },
+    {
+      "name": "今日发布",
+      "panel_name": "",
+      "aliases": [],
+      "plugin": "ftv",
+      "desc": "",
+      "scope": [
+        "group",
+        "c2c"
+      ],
+      "block": false,
+      "manual": false
+    },
+    {
+      "name": "使用预设",
+      "panel_name": "",
+      "aliases": [],
+      "plugin": "station",
+      "desc": "",
+      "scope": [
+        "group",
+        "c2c"
+      ],
+      "block": true,
+      "manual": true
+    },
+    {
+      "name": "入群欢迎",
+      "panel_name": "",
+      "aliases": [
+        "设置欢迎",
+        "welcome"
+      ],
+      "plugin": "guanli",
+      "desc": "",
+      "scope": [
+        "group",
+        "c2c"
+      ],
+      "block": false,
+      "manual": true
+    },
+    {
+      "name": "入群申请",
+      "panel_name": "",
+      "aliases": [
+        "审批",
+        "加群申请"
+      ],
+      "plugin": "guanli",
+      "desc": "",
+      "scope": [
+        "group",
+        "c2c"
+      ],
+      "block": false,
+      "manual": true
+    },
+    {
+      "name": "全体禁言",
+      "panel_name": "",
+      "aliases": [
+        "全员禁言",
+        "wholeban"
+      ],
+      "plugin": "guanli",
+      "desc": "",
+      "scope": [
+        "group",
+        "c2c"
+      ],
+      "block": false,
+      "manual": true
+    },
+    {
+      "name": "关闭图文监控",
+      "panel_name": "",
+      "aliases": [
+        "关闭监控"
+      ],
+      "plugin": "guanli",
+      "desc": "",
+      "scope": [
+        "group",
+        "c2c"
+      ],
+      "block": false,
+      "manual": true
+    },
+    {
+      "name": "兽档案",
+      "panel_name": "",
+      "aliases": [
+        "用户信息"
+      ],
+      "plugin": "ftv",
+      "desc": "",
+      "scope": [
+        "group",
+        "c2c"
+      ],
+      "block": false,
+      "manual": false
+    },
+    {
+      "name": "兽频道帮助",
+      "panel_name": "",
+      "aliases": [
+        "ftvhelp"
+      ],
+      "plugin": "ftv",
+      "desc": "",
+      "scope": [
+        "group",
+        "c2c"
+      ],
+      "block": false,
+      "manual": false
+    },
+    {
+      "name": "兽频道菜单",
+      "panel_name": "",
+      "aliases": [],
+      "plugin": "ftv",
+      "desc": "",
+      "scope": [
+        "group",
+        "c2c"
+      ],
+      "block": false,
+      "manual": false
+    },
+    {
+      "name": "删除预设",
+      "panel_name": "",
+      "aliases": [],
+      "plugin": "station",
+      "desc": "",
+      "scope": [
+        "group",
+        "c2c"
+      ],
+      "block": true,
+      "manual": true
+    },
+    {
+      "name": "动态流",
+      "panel_name": "",
+      "aliases": [
+        "今日动态"
+      ],
+      "plugin": "ftv",
+      "desc": "",
+      "scope": [
+        "group",
+        "c2c"
+      ],
+      "block": false,
+      "manual": false
+    },
+    {
+      "name": "动态详情",
+      "panel_name": "",
+      "aliases": [],
+      "plugin": "ftv",
+      "desc": "",
+      "scope": [
+        "group",
+        "c2c"
+      ],
+      "block": false,
+      "manual": false
+    },
+    {
+      "name": "发言统计",
+      "panel_name": "",
+      "aliases": [
+        "水群榜",
+        "stat",
+        "发言排行"
+      ],
+      "plugin": "guanli",
+      "desc": "",
+      "scope": [
+        "group",
+        "c2c"
+      ],
+      "block": false,
+      "manual": true
+    },
+    {
+      "name": "学校",
+      "panel_name": "",
+      "aliases": [
+        "学校搜索"
+      ],
+      "plugin": "ftv",
+      "desc": "",
+      "scope": [
+        "group",
+        "c2c"
+      ],
+      "block": false,
+      "manual": false
+    },
+    {
+      "name": "密码",
+      "panel_name": "",
+      "aliases": [
+        "每日密码",
+        "三角洲密码"
+      ],
+      "plugin": "lezi",
+      "desc": "",
+      "scope": [
+        "group",
+        "c2c"
+      ],
+      "block": true,
+      "manual": true
+    },
+    {
+      "name": "崽崽",
+      "panel_name": "",
+      "aliases": [
+        "角色列表"
+      ],
+      "plugin": "ftv",
+      "desc": "",
+      "scope": [
+        "group",
+        "c2c"
+      ],
+      "block": false,
+      "manual": false
+    },
+    {
+      "name": "平台状态",
+      "panel_name": "",
+      "aliases": [
+        "兽频道状态"
+      ],
+      "plugin": "ftv",
+      "desc": "",
+      "scope": [
+        "group",
+        "c2c"
+      ],
+      "block": false,
+      "manual": false
+    },
+    {
+      "name": "开启图文监控",
+      "panel_name": "",
+      "aliases": [
+        "开启监控"
+      ],
+      "plugin": "guanli",
+      "desc": "",
+      "scope": [
+        "group",
+        "c2c"
+      ],
+      "block": false,
+      "manual": true
+    },
+    {
+      "name": "恶臭",
+      "panel_name": "",
+      "aliases": [
+        "homo",
+        "114514"
+      ],
+      "plugin": "lezi",
+      "desc": "",
+      "scope": [
+        "group",
+        "c2c"
+      ],
+      "block": true,
+      "manual": true
+    },
+    {
+      "name": "成就",
+      "panel_name": "",
+      "aliases": [
+        "我的成就"
+      ],
+      "plugin": "achievements",
+      "desc": "",
+      "scope": [
+        "group",
+        "c2c"
+      ],
+      "block": true,
+      "manual": false
+    },
+    {
+      "name": "成就列表",
+      "panel_name": "",
+      "aliases": [
+        "所有成就"
+      ],
+      "plugin": "achievements",
+      "desc": "",
+      "scope": [
+        "group",
+        "c2c"
+      ],
+      "block": true,
+      "manual": false
+    },
+    {
+      "name": "我的货币",
+      "panel_name": "",
+      "aliases": [
+        "余额",
+        "货币"
+      ],
+      "plugin": "achievements",
+      "desc": "",
+      "scope": [
+        "group",
+        "c2c"
+      ],
+      "block": true,
+      "manual": false
+    },
+    {
+      "name": "手动撤回",
+      "panel_name": "",
+      "aliases": [],
+      "plugin": "simple",
+      "desc": "",
+      "scope": [
+        "group",
+        "c2c"
+      ],
+      "block": true,
+      "manual": true
+    },
+    {
+      "name": "扫描",
+      "panel_name": "",
+      "aliases": [
+        "scan",
+        "扫描处理"
+      ],
+      "plugin": "simple",
+      "desc": "",
+      "scope": [
+        "group",
+        "c2c"
+      ],
+      "block": true,
+      "manual": true
+    },
+    {
+      "name": "搜索",
+      "panel_name": "",
+      "aliases": [
+        "兽搜索"
+      ],
+      "plugin": "ftv",
+      "desc": "",
+      "scope": [
+        "group",
+        "c2c"
+      ],
+      "block": false,
+      "manual": false
+    },
+    {
+      "name": "搜索建议",
+      "panel_name": "",
+      "aliases": [],
+      "plugin": "ftv",
+      "desc": "",
+      "scope": [
+        "group",
+        "c2c"
+      ],
+      "block": false,
+      "manual": false
+    },
+    {
+      "name": "撤回",
+      "panel_name": "",
+      "aliases": [
+        "撤消息",
+        "recall"
+      ],
+      "plugin": "guanli",
+      "desc": "",
+      "scope": [
+        "group",
+        "c2c"
+      ],
+      "block": false,
+      "manual": true
+    },
+    {
+      "name": "操作日志",
+      "panel_name": "",
+      "aliases": [
+        "群管日志",
+        "audit"
+      ],
+      "plugin": "guanli",
+      "desc": "",
+      "scope": [
+        "group",
+        "c2c"
+      ],
+      "block": false,
+      "manual": true
+    },
+    {
+      "name": "更新违禁词",
+      "panel_name": "",
+      "aliases": [
+        "违禁词",
+        "anti"
+      ],
+      "plugin": "guanli",
+      "desc": "",
+      "scope": [
+        "group",
+        "c2c"
+      ],
+      "block": false,
+      "manual": true
+    },
+    {
+      "name": "本月聚会",
+      "panel_name": "",
+      "aliases": [],
+      "plugin": "ftv",
+      "desc": "",
+      "scope": [
+        "group",
+        "c2c"
+      ],
+      "block": false,
+      "manual": false
+    },
+    {
+      "name": "查看进度",
+      "panel_name": "",
+      "aliases": [
+        "状态",
+        "进度"
+      ],
+      "plugin": "station",
+      "desc": "",
+      "scope": [
+        "group",
+        "c2c"
+      ],
+      "block": true,
+      "manual": true
+    },
+    {
+      "name": "每日鉴毛",
+      "panel_name": "",
+      "aliases": [
+        "fw",
+        "鉴毛",
+        "furrywill"
+      ],
+      "plugin": "pyfurbot",
+      "desc": "",
+      "scope": [
+        "group",
+        "c2c"
+      ],
+      "block": true,
+      "manual": false
+    },
+    {
+      "name": "毛子转盘",
+      "panel_name": "",
+      "aliases": [
+        "加入",
+        "参与游戏"
+      ],
+      "plugin": "lezi",
+      "desc": "",
+      "scope": [
+        "group",
+        "c2c"
+      ],
+      "block": true,
+      "manual": true
+    },
+    {
+      "name": "测试成就",
+      "panel_name": "",
+      "aliases": [],
+      "plugin": "achievements",
+      "desc": "",
+      "scope": [
+        "group",
+        "c2c"
+      ],
+      "block": true,
+      "manual": false
+    },
+    {
+      "name": "添加预设",
+      "panel_name": "",
+      "aliases": [
+        "创建预设",
+        "新建预设"
+      ],
+      "plugin": "station",
+      "desc": "",
+      "scope": [
+        "group",
+        "c2c"
+      ],
+      "block": true,
+      "manual": true
+    },
+    {
+      "name": "清空消息记录",
+      "panel_name": "",
+      "aliases": [],
+      "plugin": "simple",
+      "desc": "",
+      "scope": [
+        "group",
+        "c2c"
+      ],
+      "block": true,
+      "manual": true
+    },
+    {
+      "name": "清除缓存",
+      "panel_name": "",
+      "aliases": [],
+      "plugin": "ftv",
+      "desc": "",
+      "scope": [
+        "group",
+        "c2c"
+      ],
+      "block": false,
+      "manual": false
+    },
+    {
+      "name": "点赞状态",
+      "panel_name": "",
+      "aliases": [],
+      "plugin": "ftv",
+      "desc": "",
+      "scope": [
+        "group",
+        "c2c"
+      ],
+      "block": false,
+      "manual": false
+    },
+    {
+      "name": "热门",
+      "panel_name": "",
+      "aliases": [
+        "热门推荐"
+      ],
+      "plugin": "ftv",
+      "desc": "",
+      "scope": [
+        "group",
+        "c2c"
+      ],
+      "block": false,
+      "manual": false
+    },
+    {
+      "name": "热门地区",
+      "panel_name": "",
+      "aliases": [],
+      "plugin": "ftv",
+      "desc": "",
+      "scope": [
+        "group",
+        "c2c"
+      ],
+      "block": false,
+      "manual": false
+    },
+    {
+      "name": "物种",
+      "panel_name": "",
+      "aliases": [
+        "物种搜索"
+      ],
+      "plugin": "ftv",
+      "desc": "",
+      "scope": [
+        "group",
+        "c2c"
+      ],
+      "block": false,
+      "manual": false
+    },
+    {
+      "name": "物种列表",
+      "panel_name": "",
+      "aliases": [
+        "物种统计"
+      ],
+      "plugin": "ftv",
+      "desc": "",
+      "scope": [
+        "group",
+        "c2c"
+      ],
+      "block": false,
+      "manual": false
+    },
+    {
+      "name": "猜",
+      "panel_name": "",
+      "aliases": [
+        "我猜",
+        "猜测"
+      ],
+      "plugin": "station",
+      "desc": "",
+      "scope": [
+        "group",
+        "c2c"
+      ],
+      "block": true,
+      "manual": true
+    },
+    {
+      "name": "玩舞萌玩的",
+      "panel_name": "",
+      "aliases": [
+        "awmc",
+        "玩乌蒙玩的",
+        "舞萌表情包"
+      ],
+      "plugin": "awmc",
+      "desc": "",
+      "scope": [
+        "group",
+        "c2c"
+      ],
+      "block": true,
+      "manual": false
+    },
+    {
+      "name": "用户动态",
+      "panel_name": "",
+      "aliases": [
+        "动态主页"
+      ],
+      "plugin": "ftv",
+      "desc": "",
+      "scope": [
+        "group",
+        "c2c"
+      ],
+      "block": false,
+      "manual": false
+    },
+    {
+      "name": "硬币",
+      "panel_name": "",
+      "aliases": [
+        "coin"
+      ],
+      "plugin": "lezi",
+      "desc": "",
+      "scope": [
+        "group",
+        "c2c"
+      ],
+      "block": true,
+      "manual": true
+    },
+    {
+      "name": "禁言",
+      "panel_name": "",
+      "aliases": [
+        "口球",
+        "mute"
+      ],
+      "plugin": "guanli",
+      "desc": "",
+      "scope": [
+        "group",
+        "c2c"
+      ],
+      "block": false,
+      "manual": true
+    },
+    {
+      "name": "签到",
+      "panel_name": "",
+      "aliases": [],
+      "plugin": "achievements",
+      "desc": "",
+      "scope": [
+        "group",
+        "c2c"
+      ],
+      "block": true,
+      "manual": false
+    },
+    {
+      "name": "管理面板",
+      "panel_name": "",
+      "aliases": [],
+      "plugin": "guanli",
+      "desc": "",
+      "scope": [
+        "group",
+        "c2c"
+      ],
+      "block": false,
+      "manual": true
+    },
+    {
+      "name": "系统监控",
+      "panel_name": "",
+      "aliases": [
+        "系统检查",
+        "系统状态",
+        "sys",
+        "sysinfo",
+        "监控信息"
+      ],
+      "plugin": "sys",
+      "desc": "",
+      "scope": [
+        "group",
+        "c2c"
+      ],
+      "block": true,
+      "manual": false
+    },
+    {
+      "name": "结束游戏",
+      "panel_name": "",
+      "aliases": [
+        "结束",
+        "不玩了"
+      ],
+      "plugin": "station",
+      "desc": "",
+      "scope": [
+        "group",
+        "c2c"
+      ],
+      "block": true,
+      "manual": true
+    },
+    {
+      "name": "群关键词设置",
+      "panel_name": "",
+      "aliases": [
+        "群关键词",
+        "keywords"
+      ],
+      "plugin": "guanli",
+      "desc": "",
+      "scope": [
+        "group",
+        "c2c"
+      ],
+      "block": false,
+      "manual": true
+    },
+    {
+      "name": "群插件开关",
+      "panel_name": "",
+      "aliases": [
+        "群插件",
+        "plugswitch"
+      ],
+      "plugin": "guanli",
+      "desc": "",
+      "scope": [
+        "group",
+        "c2c"
+      ],
+      "block": false,
+      "manual": true
+    },
+    {
+      "name": "聚会动态",
+      "panel_name": "",
+      "aliases": [],
+      "plugin": "ftv",
+      "desc": "",
+      "scope": [
+        "group",
+        "c2c"
+      ],
+      "block": false,
+      "manual": false
+    },
+    {
+      "name": "聚会统计",
+      "panel_name": "",
+      "aliases": [],
+      "plugin": "ftv",
+      "desc": "",
+      "scope": [
+        "group",
+        "c2c"
+      ],
+      "block": false,
+      "manual": false
+    },
+    {
+      "name": "聚会详情",
+      "panel_name": "",
+      "aliases": [],
+      "plugin": "ftv",
+      "desc": "",
+      "scope": [
+        "group",
+        "c2c"
+      ],
+      "block": false,
+      "manual": false
+    },
+    {
+      "name": "自动回复",
+      "panel_name": "",
+      "aliases": [
+        "关键词回复",
+        "autoreply"
+      ],
+      "plugin": "guanli",
+      "desc": "",
+      "scope": [
+        "group",
+        "c2c"
+      ],
+      "block": false,
+      "manual": true
+    },
+    {
+      "name": "获取配置秘钥",
+      "panel_name": "",
+      "aliases": [
+        "配置秘钥",
+        "面板秘钥"
+      ],
+      "plugin": "guanli",
+      "desc": "",
+      "scope": [
+        "group",
+        "c2c"
+      ],
+      "block": false,
+      "manual": true
+    },
+    {
+      "name": "菜狗",
+      "panel_name": "",
+      "aliases": [
+        "cabbage"
+      ],
+      "plugin": "lezi",
+      "desc": "",
+      "scope": [
+        "group",
+        "c2c"
+      ],
+      "block": true,
+      "manual": true
+    },
+    {
+      "name": "解除禁言",
+      "panel_name": "",
+      "aliases": [
+        "解禁",
+        "unmute"
+      ],
+      "plugin": "guanli",
+      "desc": "",
+      "scope": [
+        "group",
+        "c2c"
+      ],
+      "block": false,
+      "manual": true
+    },
+    {
+      "name": "话题动态",
+      "panel_name": "",
+      "aliases": [],
+      "plugin": "ftv",
+      "desc": "",
+      "scope": [
+        "group",
+        "c2c"
+      ],
+      "block": false,
+      "manual": false
+    },
+    {
+      "name": "退群提醒",
+      "panel_name": "",
+      "aliases": [
+        "leave",
+        "设置退群提醒"
+      ],
+      "plugin": "guanli",
+      "desc": "",
+      "scope": [
+        "group",
+        "c2c"
+      ],
+      "block": false,
+      "manual": true
+    },
+    {
+      "name": "随机",
+      "panel_name": "",
+      "aliases": [
+        "随机档案"
+      ],
+      "plugin": "ftv",
+      "desc": "",
+      "scope": [
+        "group",
+        "c2c"
+      ],
+      "block": false,
+      "manual": false
+    },
+    {
+      "name": "预设列表",
+      "panel_name": "",
+      "aliases": [
+        "所有预设",
+        "查看预设"
+      ],
+      "plugin": "station",
+      "desc": "",
+      "scope": [
+        "group",
+        "c2c"
+      ],
+      "block": true,
+      "manual": true
+    },
+    {
+      "name": "频道动态",
+      "panel_name": "",
+      "aliases": [
+        "动态探索"
+      ],
+      "plugin": "ftv",
+      "desc": "",
+      "scope": [
+        "group",
+        "c2c"
+      ],
+      "block": false,
+      "manual": false
+    },
+    {
+      "name": "骰子",
+      "panel_name": "",
+      "aliases": [
+        "色子",
+        "dice"
+      ],
+      "plugin": "lezi",
+      "desc": "",
+      "scope": [
+        "group",
+        "c2c"
+      ],
+      "block": true,
+      "manual": true
+    },
+    {
+      "name": "黑白名单",
+      "panel_name": "",
+      "aliases": [
+        "名单",
+        "白名单",
+        "黑名单"
+      ],
+      "plugin": "guanli",
+      "desc": "",
+      "scope": [
+        "group",
+        "c2c"
+      ],
+      "block": false,
+      "manual": true
+    }
+  ],
+  "summary": {
+    "total": 86,
+    "blocked": 42,
+    "manual": 51,
+    "with_aliases": 65,
+    "by_plugin": {
+      "ftv": 25,
+      "guanli": 18,
+      "lezi": 10,
+      "station": 8,
+      "image_reader": 6,
+      "achievements": 5,
+      "simple": 3,
+      "hoc": 2,
+      "tarot": 2,
+      "echo": 1,
+      "mcsm": 1,
+      "latency_test": 1,
+      "poke": 1,
+      "pyfurbot": 1,
+      "awmc": 1,
+      "sys": 1
+    }
+  },
+  "sync_plugins": []
+}

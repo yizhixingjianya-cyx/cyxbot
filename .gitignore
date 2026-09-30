@@ -1,0 +1,41 @@
+# ── 密钥与本地配置：绝对不要提交 ──
+.env
+.env.*
+!.env.example
+
+# ── 运行时数据库（含用户 QQ 号等隐私数据） ──
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
+*.sqlite
+*.sqlite3
+
+# ── 运行时缓存 / 日志 / 状态 ──
+logs/
+states/
+src/plugins/ftv/cache/
+data/dj_password_cache.json
+
+# ── 体积过大、需另行获取的素材（舞萌封面与评级图） ──
+data/static/mai/
+
+# ── 图床落盘目录（运行时生成） ──
+data/static/ftv/
+
+# ── Python ──
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+
+# ── 虚拟环境 ──
+.venv/
+venv/
+botenv/
+
+# ── 编辑器 / 系统 ──
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db

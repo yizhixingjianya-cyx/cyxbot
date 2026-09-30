@@ -1,0 +1,1 @@
+botenv\Scripts\activate

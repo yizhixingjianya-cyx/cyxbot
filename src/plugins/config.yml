@@ -1,0 +1,6 @@
+# 系统监控插件配置（Windows / Ubuntu 通用）
+# monitor_disk: 要监控的磁盘。Windows 填盘符（如 C:\），Ubuntu 填挂载点（如 /）。
+#               若该路径在当前系统不存在，会自动回退到平台默认值（Windows 用 C:\，Ubuntu 用 /）。
+monitor_disk: C:\
+resource_decimal: 2
+show_cpu_core: true
